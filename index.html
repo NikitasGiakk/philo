@@ -1,0 +1,1764 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PhiloTerminale — Révise le Bac</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --paper: #f5f0e8;
+  --cream: #faf7f2;
+  --gold: #c9a227;
+  --gold-light: #f5e6b0;
+  --indigo: #2d3a8c;
+  --indigo-light: #e8eaf6;
+  --sage: #4a7c59;
+  --sage-light: #e8f4ec;
+  --rust: #9b3a2a;
+  --rust-light: #fceae7;
+  --slate: #546e7a;
+  --border: rgba(26,26,46,0.12);
+  --shadow: 0 4px 24px rgba(26,26,46,0.08);
+  --shadow-lg: 0 12px 48px rgba(26,26,46,0.14);
+  --radius: 16px;
+  --radius-sm: 8px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--cream); }
+::-webkit-scrollbar-thumb { background: var(--indigo); border-radius: 3px; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 32px;
+}
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 900; color: var(--indigo);
+  letter-spacing: -0.5px;
+  cursor: pointer;
+}
+.nav-brand span { color: var(--gold); }
+.nav-tabs {
+  display: flex; gap: 4px;
+  background: rgba(45,58,140,0.06);
+  padding: 4px; border-radius: 10px;
+}
+.nav-tab {
+  padding: 6px 16px; border-radius: 7px;
+  border: none; background: transparent; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+  color: var(--slate); transition: all 0.2s;
+}
+.nav-tab.active, .nav-tab:hover {
+  background: var(--indigo); color: #fff;
+}
+.nav-progress {
+  font-size: 0.8rem; color: var(--slate); font-weight: 500;
+}
+.progress-bar-mini {
+  width: 80px; height: 4px; background: var(--border);
+  border-radius: 2px; overflow: hidden; margin-top: 3px;
+}
+.progress-bar-mini-fill {
+  height: 100%; background: var(--gold); border-radius: 2px;
+  transition: width 0.4s;
+}
+
+/* ── PAGES ── */
+.page { display: none; padding-top: 64px; min-height: 100vh; }
+.page.active { display: block; }
+
+/* ── HERO ── */
+.hero {
+  min-height: calc(100vh - 64px);
+  display: grid; place-items: center;
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #1a1a2e 0%, #2d3a8c 50%, #1a1a2e 100%);
+}
+.hero-bg {
+  position: absolute; inset: 0; overflow: hidden;
+}
+.hero-circle {
+  position: absolute; border-radius: 50%;
+  opacity: 0.07;
+}
+.hero-circle.c1 { width: 600px; height: 600px; background: var(--gold); top: -200px; right: -100px; }
+.hero-circle.c2 { width: 400px; height: 400px; background: #fff; bottom: -150px; left: -100px; }
+.hero-circle.c3 { width: 200px; height: 200px; background: var(--gold); top: 50%; left: 30%; }
+.hero-content {
+  position: relative; z-index: 1; text-align: center;
+  max-width: 700px; padding: 0 32px;
+}
+.hero-eyebrow {
+  display: inline-block;
+  background: rgba(201,162,39,0.2); border: 1px solid rgba(201,162,39,0.4);
+  color: var(--gold); padding: 6px 16px; border-radius: 20px;
+  font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 6rem); font-weight: 900;
+  color: #fff; line-height: 0.95; letter-spacing: -2px;
+  margin-bottom: 8px;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 1.1rem; color: rgba(255,255,255,0.6);
+  margin: 20px 0 40px; line-height: 1.6;
+}
+.hero-stats {
+  display: flex; gap: 32px; justify-content: center; margin-bottom: 48px;
+}
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem; font-weight: 900; color: var(--gold);
+}
+.hero-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+.hero-cta {
+  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+}
+.btn-primary {
+  padding: 14px 32px; background: var(--gold); color: var(--ink);
+  border: none; border-radius: 10px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600;
+  transition: all 0.2s; letter-spacing: 0.3px;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,162,39,0.4); }
+.btn-secondary {
+  padding: 14px 32px; background: rgba(255,255,255,0.08); color: #fff;
+  border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 500;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.15); }
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+  color: rgba(255,255,255,0.4); font-size: 0.75rem; text-align: center;
+  animation: bounce 2s infinite;
+}
+@keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+/* ── NOTION GRID ── */
+.section { padding: 64px 40px; max-width: 1200px; margin: 0 auto; }
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem; font-weight: 900; color: var(--ink);
+  margin-bottom: 8px; letter-spacing: -1px;
+}
+.section-title span { color: var(--gold); }
+.section-sub { color: var(--slate); margin-bottom: 40px; font-size: 1rem; }
+
+.notion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+.notion-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 20px;
+  cursor: pointer; transition: all 0.25s;
+  position: relative; overflow: hidden;
+  text-decoration: none; color: inherit;
+}
+.notion-card:hover {
+  transform: translateY(-4px); box-shadow: var(--shadow-lg);
+  border-color: var(--indigo);
+}
+.notion-card.done { border-color: var(--sage); }
+.notion-card-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem; color: var(--gold); font-weight: 500;
+  letter-spacing: 1px; margin-bottom: 8px;
+}
+.notion-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; font-weight: 700; color: var(--ink);
+  margin-bottom: 6px;
+}
+.notion-card-preview {
+  font-size: 0.78rem; color: var(--slate); line-height: 1.4;
+}
+.notion-card-bar {
+  margin-top: 16px; height: 3px; background: var(--border);
+  border-radius: 2px; overflow: hidden;
+}
+.notion-card-bar-fill {
+  height: 100%; border-radius: 2px; background: var(--indigo); transition: width 0.5s;
+}
+.notion-card-tag {
+  display: inline-block; margin-top: 12px;
+  background: var(--indigo-light); color: var(--indigo);
+  padding: 3px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: 600;
+}
+.notion-card .card-accent {
+  position: absolute; top: 0; right: 0; width: 60px; height: 60px;
+  border-radius: 0 var(--radius) 0 60px;
+  opacity: 0.08;
+}
+
+/* ── NOTION DETAIL PAGE ── */
+.notion-detail {
+  max-width: 960px; margin: 0 auto; padding: 40px 32px 100px;
+}
+.notion-back {
+  display: inline-flex; align-items: center; gap: 8px;
+  color: var(--slate); font-size: 0.85rem; cursor: pointer;
+  margin-bottom: 32px; border: none; background: none;
+  font-family: 'DM Sans', sans-serif;
+}
+.notion-back:hover { color: var(--indigo); }
+.notion-header {
+  background: linear-gradient(135deg, var(--indigo) 0%, #1a1a2e 100%);
+  border-radius: var(--radius); padding: 48px 48px 40px;
+  margin-bottom: 40px; position: relative; overflow: hidden;
+}
+.notion-header::before {
+  content: attr(data-num);
+  position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 8rem; font-weight: 900; color: rgba(255,255,255,0.04);
+  line-height: 1;
+}
+.notion-tag {
+  display: inline-block; background: rgba(201,162,39,0.2);
+  border: 1px solid rgba(201,162,39,0.4); color: var(--gold);
+  padding: 4px 12px; border-radius: 20px; font-size: 0.75rem;
+  font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.notion-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900;
+  color: #fff; letter-spacing: -2px; line-height: 1;
+  margin-bottom: 16px;
+}
+.notion-header-desc { color: rgba(255,255,255,0.65); font-size: 1rem; line-height: 1.6; max-width: 600px; }
+
+/* ── TABS ── */
+.detail-tabs {
+  display: flex; gap: 4px; background: rgba(26,26,46,0.06);
+  padding: 5px; border-radius: 12px; margin-bottom: 32px;
+}
+.detail-tab {
+  flex: 1; padding: 10px 16px; border-radius: 8px;
+  border: none; background: transparent; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500;
+  color: var(--slate); transition: all 0.2s; text-align: center;
+}
+.detail-tab.active { background: var(--ink); color: #fff; }
+.detail-content { display: none; }
+.detail-content.active { display: block; }
+
+/* ── DEFINITION CARDS ── */
+.def-grid { display: grid; gap: 12px; }
+.def-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 20px 24px;
+  display: grid; grid-template-columns: 200px 1fr; gap: 20px; align-items: start;
+  transition: all 0.2s;
+}
+.def-card:hover { border-color: var(--indigo); transform: translateX(4px); }
+.def-term {
+  font-family: 'DM Mono', monospace; font-size: 0.82rem; font-weight: 500;
+  color: var(--indigo); padding-top: 2px;
+}
+.def-meaning { font-size: 0.92rem; color: var(--ink); line-height: 1.6; }
+
+/* ── PHILOSOPHER CARDS ── */
+.phil-list { display: grid; gap: 20px; }
+.phil-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+.phil-header {
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 16px;
+  padding: 20px 24px; border-bottom: 1px solid var(--border);
+}
+.phil-avatar {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--indigo); display: grid; place-items: center;
+  font-family: 'Playfair Display', serif; font-size: 1.2rem;
+  font-weight: 900; color: #fff; flex-shrink: 0;
+}
+.phil-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem; font-weight: 700; color: var(--ink);
+}
+.phil-period { font-size: 0.8rem; color: var(--slate); margin-top: 2px; }
+.phil-badge {
+  padding: 4px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 600;
+}
+.phil-badge.oui { background: var(--sage-light); color: var(--sage); }
+.phil-badge.non { background: var(--rust-light); color: var(--rust); }
+.phil-body { padding: 20px 24px; display: grid; gap: 14px; }
+.phil-section-label {
+  font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--slate); margin-bottom: 4px;
+}
+.phil-thesis { font-size: 0.92rem; color: var(--ink); line-height: 1.6; }
+.phil-quote {
+  background: var(--gold-light); border-left: 3px solid var(--gold);
+  padding: 12px 16px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-style: italic; font-size: 0.88rem; color: var(--ink); line-height: 1.6;
+}
+.phil-example {
+  background: var(--indigo-light); border-radius: var(--radius-sm);
+  padding: 12px 16px; font-size: 0.88rem; color: var(--indigo); line-height: 1.6;
+}
+
+/* ── DEBATE ── */
+.debate-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin-bottom: 20px;
+}
+.debate-question {
+  background: var(--ink); color: #fff;
+  padding: 16px 24px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem; font-weight: 700; font-style: italic;
+}
+.debate-sides {
+  display: grid; grid-template-columns: 1fr 1fr;
+}
+.debate-side { padding: 20px 24px; }
+.debate-side.oui { border-right: 1px solid var(--border); }
+.debate-side-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.debate-side.oui .debate-side-label { color: var(--sage); }
+.debate-side.non .debate-side-label { color: var(--rust); }
+.debate-phil { font-weight: 600; font-size: 0.88rem; color: var(--ink); margin-bottom: 6px; }
+.debate-arg { font-size: 0.85rem; color: var(--slate); line-height: 1.5; }
+
+/* ── EXAMPLES ── */
+.example-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin-bottom: 16px;
+}
+.example-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 24px; border-bottom: 1px solid var(--border);
+}
+.example-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--gold); display: grid; place-items: center; font-size: 1rem; flex-shrink: 0;
+}
+.example-title { font-weight: 600; font-size: 0.95rem; color: var(--ink); }
+.example-cat { font-size: 0.75rem; color: var(--slate); }
+.example-body { padding: 20px 24px; font-size: 0.9rem; color: var(--ink); line-height: 1.7; }
+.example-link {
+  display: flex; align-items: center; gap: 6px;
+  padding: 12px 24px; border-top: 1px solid var(--border);
+  font-size: 0.8rem; color: var(--indigo); font-weight: 500;
+}
+
+/* ── ANNALES SUBJECTS ── */
+.subjects-list { display: grid; gap: 10px; }
+.subject-item {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  transition: all 0.2s; cursor: pointer;
+}
+.subject-item:hover { border-color: var(--indigo); transform: translateX(4px); }
+.subject-text { font-size: 0.9rem; color: var(--ink); font-weight: 500; flex: 1; }
+.subject-year {
+  font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--gold);
+  background: var(--gold-light); padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+}
+.subject-type {
+  font-size: 0.72rem; color: var(--slate);
+  background: var(--indigo-light); color: var(--indigo);
+  padding: 3px 8px; border-radius: 4px; white-space: nowrap;
+}
+
+/* ── FLASHCARD MODE ── */
+.flashcard-mode { max-width: 700px; margin: 0 auto; padding: 40px 32px; }
+.flashcard-progress-bar {
+  height: 4px; background: var(--border); border-radius: 2px;
+  margin-bottom: 32px; overflow: hidden;
+}
+.flashcard-progress-fill {
+  height: 100%; background: var(--indigo); border-radius: 2px; transition: width 0.4s;
+}
+.flashcard-counter { text-align: center; font-size: 0.82rem; color: var(--slate); margin-bottom: 24px; }
+.flashcard {
+  width: 100%; min-height: 320px;
+  perspective: 1000px; cursor: pointer; margin-bottom: 32px;
+}
+.flashcard-inner {
+  width: 100%; min-height: 320px;
+  position: relative; transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: var(--radius);
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-front, .flashcard-back {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius); padding: 48px;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  text-align: center;
+}
+.flashcard-front {
+  background: var(--ink);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.flashcard-back {
+  background: var(--indigo);
+  transform: rotateY(180deg);
+}
+.flashcard-notion {
+  font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--gold);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px;
+}
+.flashcard-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem; font-weight: 700; color: #fff;
+  line-height: 1.4; margin-bottom: 24px;
+}
+.flashcard-hint { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+.flashcard-answer {
+  font-size: 1.05rem; color: #fff; line-height: 1.6;
+}
+.flashcard-author {
+  margin-top: 16px; font-size: 0.82rem; color: var(--gold-light);
+  font-style: italic;
+}
+.flashcard-actions {
+  display: flex; gap: 12px; justify-content: center;
+}
+.fc-btn {
+  flex: 1; max-width: 180px; padding: 14px;
+  border: 2px solid transparent; border-radius: var(--radius-sm);
+  cursor: pointer; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 600;
+  transition: all 0.2s;
+}
+.fc-btn.good { background: var(--sage-light); color: var(--sage); border-color: var(--sage); }
+.fc-btn.good:hover { background: var(--sage); color: #fff; }
+.fc-btn.bad { background: var(--rust-light); color: var(--rust); border-color: var(--rust); }
+.fc-btn.bad:hover { background: var(--rust); color: #fff; }
+.fc-btn.flip { background: var(--indigo); color: #fff; max-width: 220px; }
+.fc-btn.flip:hover { background: var(--ink); }
+.flashcard-filter {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center;
+}
+.fc-filter-btn {
+  padding: 6px 14px; border-radius: 20px; border: 1px solid var(--border);
+  background: var(--cream); color: var(--slate); cursor: pointer;
+  font-size: 0.8rem; font-weight: 500; transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+.fc-filter-btn.active { background: var(--indigo); color: #fff; border-color: var(--indigo); }
+.fc-done {
+  text-align: center; padding: 60px 40px;
+  background: var(--cream); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.fc-done-icon { font-size: 3rem; margin-bottom: 16px; }
+.fc-done-title {
+  font-family: 'Playfair Display', serif; font-size: 1.8rem;
+  font-weight: 900; color: var(--ink); margin-bottom: 8px;
+}
+.fc-score { font-size: 3rem; font-weight: 900; color: var(--gold); font-family: 'Playfair Display', serif; }
+.fc-score-label { font-size: 0.85rem; color: var(--slate); margin-bottom: 24px; }
+
+/* ── QUIZ ── */
+.quiz-mode { max-width: 700px; margin: 0 auto; padding: 40px 32px; }
+.quiz-q-num { font-family:'DM Mono',monospace; font-size:0.75rem; color:var(--gold); margin-bottom:8px; }
+.quiz-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; font-weight: 700; color: var(--ink);
+  line-height: 1.4; margin-bottom: 32px;
+}
+.quiz-options { display: grid; gap: 12px; margin-bottom: 24px; }
+.quiz-option {
+  padding: 16px 20px; background: var(--cream); border: 2px solid var(--border);
+  border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 0.92rem; color: var(--ink); transition: all 0.2s;
+  text-align: left; font-family: 'DM Sans', sans-serif; line-height: 1.4;
+}
+.quiz-option:hover:not(.disabled) { border-color: var(--indigo); transform: translateX(4px); }
+.quiz-option.selected-correct { border-color: var(--sage); background: var(--sage-light); color: var(--sage); }
+.quiz-option.selected-wrong { border-color: var(--rust); background: var(--rust-light); color: var(--rust); }
+.quiz-option.correct-reveal { border-color: var(--sage); background: var(--sage-light); color: var(--sage); }
+.quiz-option.disabled { cursor: default; }
+.quiz-feedback {
+  padding: 16px 20px; border-radius: var(--radius-sm); margin-bottom: 20px;
+  font-size: 0.9rem; line-height: 1.5; display: none;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: var(--sage-light); color: var(--sage); border: 1px solid var(--sage); }
+.quiz-feedback.wrong { background: var(--rust-light); color: var(--rust); border: 1px solid var(--rust); }
+.quiz-next {
+  width: 100%; padding: 14px; background: var(--ink); color: #fff;
+  border: none; border-radius: var(--radius-sm); cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600;
+  transition: all 0.2s; display: none;
+}
+.quiz-next.show { display: block; }
+.quiz-next:hover { background: var(--indigo); }
+.quiz-stats {
+  display: flex; gap: 16px; margin-bottom: 32px;
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px 20px;
+}
+.quiz-stat { flex: 1; text-align: center; }
+.quiz-stat-n { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; }
+.quiz-stat-n.good { color: var(--sage); }
+.quiz-stat-n.bad { color: var(--rust); }
+.quiz-stat-l { font-size: 0.72rem; color: var(--slate); text-transform: uppercase; letter-spacing: 1px; }
+.quiz-filter { margin-bottom: 24px; }
+.quiz-filter select {
+  padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--cream); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: var(--ink);
+  cursor: pointer;
+}
+
+/* ── REVISION TRACKER ── */
+.tracker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+.tracker-card {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 16px;
+  cursor: pointer; transition: all 0.2s;
+}
+.tracker-card:hover { border-color: var(--indigo); }
+.tracker-card.done { border-color: var(--sage); background: var(--sage-light); }
+.tracker-card-name { font-weight: 600; font-size: 0.88rem; margin-bottom: 6px; }
+.tracker-card-status { font-size: 0.75rem; color: var(--slate); }
+.tracker-card.done .tracker-card-status { color: var(--sage); }
+
+/* ── MÉTHODE ── */
+.methode-steps { display: grid; gap: 16px; }
+.methode-step {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px 24px 24px 80px;
+  position: relative; transition: all 0.2s;
+}
+.methode-step:hover { border-color: var(--indigo); }
+.methode-step-num {
+  position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
+  width: 36px; height: 36px; background: var(--ink); color: #fff;
+  border-radius: 50%; display: grid; place-items: center;
+  font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 900;
+}
+.methode-step-title { font-weight: 600; font-size: 0.95rem; margin-bottom: 6px; }
+.methode-step-desc { font-size: 0.88rem; color: var(--slate); line-height: 1.5; }
+
+/* ── CITATION BOX ── */
+.citation-wall { display: grid; gap: 12px; }
+.citation-item {
+  background: var(--cream); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 20px 24px;
+  border-left: 4px solid var(--gold); transition: all 0.2s;
+}
+.citation-item:hover { transform: translateX(4px); }
+.citation-text { font-style: italic; font-size: 0.95rem; line-height: 1.6; color: var(--ink); margin-bottom: 8px; }
+.citation-source { font-size: 0.78rem; color: var(--gold); font-weight: 600; }
+.citation-notion { font-size: 0.72rem; color: var(--slate); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  nav { padding: 0 16px; }
+  .nav-tabs { display: none; }
+  .section { padding: 40px 20px; }
+  .notion-detail { padding: 24px 20px 80px; }
+  .notion-header { padding: 32px 24px; }
+  .debate-sides { grid-template-columns: 1fr; }
+  .debate-side.oui { border-right: none; border-bottom: 1px solid var(--border); }
+  .def-card { grid-template-columns: 1fr; }
+  .flashcard-front, .flashcard-back { padding: 32px 24px; }
+  .hero-stats { gap: 20px; }
+}
+
+/* ── ANIMATIONS ── */
+.fade-in { animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.chip {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 0.72rem; font-weight: 600; margin-right: 6px; margin-bottom: 4px;
+  background: var(--indigo-light); color: var(--indigo);
+}
+
+.section-divider {
+  height: 1px; background: var(--border); margin: 32px 0;
+}
+
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--slate);
+}
+.empty-state-icon { font-size: 3rem; margin-bottom: 16px; opacity: 0.4; }
+
+/* Notion color accents */
+.acc-0 { background: #e8eaf6; } .acc-1 { background: #e8f5e9; } .acc-2 { background: #fff8e1; }
+.acc-3 { background: #fceae7; } .acc-4 { background: #e0f2f1; } .acc-5 { background: #f3e5f5; }
+.acc-6 { background: #e1f5fe; } .acc-7 { background: #fff3e0; } .acc-8 { background: #e8eaf6; }
+.acc-9 { background: #e8f5e9; } .acc-10 { background: #fff8e1; } .acc-11 { background: #fceae7; }
+.acc-12 { background: #e0f2f1; } .acc-13 { background: #f3e5f5; } .acc-14 { background: #e1f5fe; }
+.acc-15 { background: #fff3e0; } .acc-16 { background: #fce4ec; }
+
+.col-0 { color: #3949ab; } .col-1 { color: #388e3c; } .col-2 { color: #f57f17; }
+.col-3 { color: #c62828; } .col-4 { color: #00796b; } .col-5 { color: #7b1fa2; }
+.col-6 { color: #0277bd; } .col-7 { color: #e65100; } .col-8 { color: #3949ab; }
+.col-9 { color: #388e3c; } .col-10 { color: #f57f17; } .col-11 { color: #c62828; }
+.col-12 { color: #00796b; } .col-13 { color: #7b1fa2; } .col-14 { color: #0277bd; }
+.col-15 { color: #e65100; } .col-16 { color: #ad1457; }
+
+.mobile-nav {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(245,240,232,0.95); backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: none; justify-content: space-around; padding: 8px 0 12px;
+}
+@media (max-width: 640px) {
+  .mobile-nav { display: flex; }
+  body { padding-bottom: 60px; }
+}
+.mobile-nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  border: none; background: none; cursor: pointer; padding: 4px 12px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.65rem; color: var(--slate);
+  transition: color 0.2s;
+}
+.mobile-nav-btn.active { color: var(--indigo); }
+.mobile-nav-btn span { font-size: 1.2rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand" onclick="showPage('home')">Philo<span>Terminale</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home'); setTab(this)">Accueil</button>
+    <button class="nav-tab" onclick="showPage('notions'); setTab(this)">Notions</button>
+    <button class="nav-tab" onclick="showPage('flashcards'); setTab(this); initFlashcards()">Flashcards</button>
+    <button class="nav-tab" onclick="showPage('quiz'); setTab(this); initQuiz()">Quiz</button>
+    <button class="nav-tab" onclick="showPage('methode'); setTab(this)">Méthode</button>
+  </div>
+  <div class="nav-progress">
+    <div>Progression <strong id="progress-pct">0%</strong></div>
+    <div class="progress-bar-mini"><div class="progress-bar-mini-fill" id="nav-progress-fill" style="width:0%"></div></div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav">
+  <button class="mobile-nav-btn active" onclick="showPage('home'); setMobileTab(this)"><span>🏠</span>Accueil</button>
+  <button class="mobile-nav-btn" onclick="showPage('notions'); setMobileTab(this)"><span>📚</span>Notions</button>
+  <button class="mobile-nav-btn" onclick="showPage('flashcards'); setMobileTab(this); initFlashcards()"><span>🃏</span>Flashcards</button>
+  <button class="mobile-nav-btn" onclick="showPage('quiz'); setMobileTab(this); initQuiz()"><span>🎯</span>Quiz</button>
+  <button class="mobile-nav-btn" onclick="showPage('methode'); setMobileTab(this)"><span>✍️</span>Méthode</button>
+</div>
+
+<!-- ════════════ HOME ════════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-bg">
+      <div class="hero-circle c1"></div>
+      <div class="hero-circle c2"></div>
+      <div class="hero-circle c3"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Bac Terminale 2026</div>
+      <h1>Révise la <em>Philo</em></h1>
+      <p class="hero-sub">17 notions. 50+ philosophes. Des centaines d'exemples, citations et quiz.<br>La méthode qui t'emmène au 18/20.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="hero-stat-num">17</div><div class="hero-stat-label">Notions</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">50+</div><div class="hero-stat-label">Philosophes</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">200+</div><div class="hero-stat-label">Questions</div></div>
+        <div class="hero-stat"><div class="hero-stat-num">∞</div><div class="hero-stat-label">Révisions</div></div>
+      </div>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="showPage('notions'); setTabByName('notions')">Commencer les révisions</button>
+        <button class="btn-secondary" onclick="showPage('flashcards'); setTabByName('flashcards'); initFlashcards()">Mode Flashcards 🃏</button>
+      </div>
+    </div>
+    <div class="hero-scroll">↓ Défiler</div>
+  </div>
+
+  <!-- Notions rapides -->
+  <div class="section">
+    <div class="section-title">Les <span>17 notions</span> du programme</div>
+    <p class="section-sub">Clique sur une notion pour accéder à la fiche complète</p>
+    <div class="notion-grid" id="home-notion-grid"></div>
+  </div>
+
+  <!-- Citations du jour -->
+  <div class="section" style="background: var(--cream); margin: 0; max-width: 100%; padding: 64px 40px;">
+    <div style="max-width:1200px; margin:0 auto;">
+      <div class="section-title">Citations <span>incontournables</span></div>
+      <p class="section-sub">Les formules qui impressionnent les correcteurs</p>
+      <div class="citation-wall" id="home-citations"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ NOTIONS LIST ════════════ -->
+<div id="page-notions" class="page">
+  <div class="section">
+    <div class="section-title">Les <span>notions</span></div>
+    <p class="section-sub">17 notions • Clique pour accéder à la fiche complète</p>
+    <div class="notion-grid" id="notions-grid"></div>
+  </div>
+</div>
+
+<!-- ════════════ NOTION DETAIL ════════════ -->
+<div id="page-detail" class="page">
+  <div class="notion-detail" id="detail-content"></div>
+</div>
+
+<!-- ════════════ FLASHCARDS ════════════ -->
+<div id="page-flashcards" class="page">
+  <div class="flashcard-mode">
+    <div class="section-title" style="text-align:center; margin-bottom:8px;">Mode <span style="color:var(--gold)">Flashcards</span> 🃏</div>
+    <p style="text-align:center; color:var(--slate); margin-bottom:32px;">Clique pour révéler la réponse. Évalue-toi honnêtement !</p>
+
+    <div class="flashcard-filter" id="fc-filter"></div>
+
+    <div class="flashcard-progress-bar"><div class="flashcard-progress-fill" id="fc-progress-fill"></div></div>
+    <div class="flashcard-counter" id="fc-counter"></div>
+
+    <div id="fc-card-area"></div>
+  </div>
+</div>
+
+<!-- ════════════ QUIZ ════════════ -->
+<div id="page-quiz" class="page">
+  <div class="quiz-mode">
+    <div class="section-title" style="text-align:center; margin-bottom:8px;">Quiz <span style="color:var(--gold)">Philosophie</span> 🎯</div>
+    <p style="text-align:center; color:var(--slate); margin-bottom:32px;">Teste tes connaissances sur toutes les notions</p>
+
+    <div class="quiz-filter" style="text-align:center;">
+      <select id="quiz-notion-filter" onchange="initQuiz()">
+        <option value="all">Toutes les notions</option>
+      </select>
+    </div>
+
+    <div class="quiz-stats">
+      <div class="quiz-stat"><div class="quiz-stat-n good" id="quiz-correct">0</div><div class="quiz-stat-l">Bonnes réponses</div></div>
+      <div class="quiz-stat"><div class="quiz-stat-n bad" id="quiz-wrong">0</div><div class="quiz-stat-l">Mauvaises réponses</div></div>
+      <div class="quiz-stat"><div class="quiz-stat-n" id="quiz-total" style="color:var(--indigo)">0</div><div class="quiz-stat-l">Questions vues</div></div>
+    </div>
+
+    <div id="quiz-area"></div>
+  </div>
+</div>
+
+<!-- ════════════ MÉTHODE ════════════ -->
+<div id="page-methode" class="page">
+  <div class="section" style="max-width: 800px;">
+    <div class="section-title">La <span>Méthode</span> Dissertation</div>
+    <p class="section-sub">Comment décrocher une note excellente en 4h</p>
+
+    <div class="methode-steps">
+      <div class="methode-step">
+        <div class="methode-step-num">1</div>
+        <div class="methode-step-title">Analyser le sujet (15 min)</div>
+        <div class="methode-step-desc">Souligne les mots-clés. Cherche le <strong>problème philosophique implicite</strong> derrière la question posée. Un sujet n'est jamais anodin : il cache toujours une tension entre deux thèses. Exemple : "L'art est-il un mensonge ?" → tension vérité / fiction / illusion créatrice.</div>
+      </div>
+      <div class="methode-step">
+        <div class="methode-step-num">2</div>
+        <div class="methode-step-title">Problématiser (15 min)</div>
+        <div class="methode-step-desc">Reformuler la question en une <strong>problématique</strong> qui montre que la réponse n'est pas évidente. Exemple : "Si l'art crée des illusions, peut-il néanmoins révéler une vérité supérieure à la réalité brute ?" La problématique doit rendre la dissertation <em>nécessaire</em>.</div>
+      </div>
+      <div class="methode-step">
+        <div class="methode-step-num">3</div>
+        <div class="methode-step-title">Construire le plan (15 min)</div>
+        <div class="methode-step-desc"><strong>Plan dialectique :</strong> Thèse (OUI) → Antithèse (NON) → Synthèse (dépassement). Chaque partie = 1 idée principale + 2-3 arguments + 1 philosophe + 1 exemple concret. Évite les plans "catalogue" sans fil conducteur.</div>
+      </div>
+      <div class="methode-step">
+        <div class="methode-step-num">4</div>
+        <div class="methode-step-title">L'introduction (20 min)</div>
+        <div class="methode-step-desc"><strong>Structure :</strong> Accroche (fait, citation, exemple) → Analyse du sujet → Problématique → Annonce du plan. L'introduction fait 1/3 de page environ. Elle conditionne l'impression du correcteur.</div>
+      </div>
+      <div class="methode-step">
+        <div class="methode-step-num">5</div>
+        <div class="methode-step-title">Le développement (2h30)</div>
+        <div class="methode-step-desc">Chaque paragraphe : <strong>Idée → Argument → Illustration philosophique → Exemple → Transition</strong>. Cite un philosophe par argument. Soigne les transitions entre parties. Utilise des connecteurs logiques (certes, mais, or, néanmoins, en revanche).</div>
+      </div>
+      <div class="methode-step">
+        <div class="methode-step-num">6</div>
+        <div class="methode-step-title">La conclusion (15 min)</div>
+        <div class="methode-step-desc"><strong>Récapitulatif</strong> du chemin parcouru → <strong>Réponse</strong> à la problématique → <strong>Ouverture</strong> vers une question connexe. La conclusion doit apporter une réponse nuancée, jamais tranchée de façon naïve.</div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="section-title" style="font-size:1.5rem;">Notions <span>à probabilité haute</span> 2026</div>
+    <p class="section-sub">Selon les annales et les experts (source : DigiSchool, Nomad Education)</p>
+    <div style="display:grid; gap:10px; margin-bottom:40px;">
+      <div style="background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+        <div><strong>La Liberté</strong> — revient quasiment chaque année</div>
+        <div style="color:var(--rust); font-weight:700; font-size:1.1rem;">🔥🔥🔥</div>
+      </div>
+      <div style="background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+        <div><strong>Le Devoir / La Justice</strong> — très fréquent</div>
+        <div style="color:var(--rust); font-weight:700; font-size:1.1rem;">🔥🔥🔥</div>
+      </div>
+      <div style="background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+        <div><strong>L'Inconscient</strong> — régulier depuis 2020</div>
+        <div style="color:var(--gold); font-weight:700; font-size:1.1rem;">🔥🔥</div>
+      </div>
+      <div style="background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+        <div><strong>La Technique / La Nature</strong> — très portés par l'actualité climatique</div>
+        <div style="color:var(--gold); font-weight:700; font-size:1.1rem;">🔥🔥</div>
+      </div>
+      <div style="background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+        <div><strong>La Vérité / La Science</strong> — contexte post-COVID et fake news</div>
+        <div style="color:var(--gold); font-weight:700; font-size:1.1rem;">🔥🔥</div>
+      </div>
+      <div style="background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+        <div><strong>Le Bonheur / Le Temps</strong> — classiques toujours possibles</div>
+        <div style="color:var(--slate); font-weight:700; font-size:1.1rem;">🔥</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:1.5rem;">Auteurs <span>à connaître absolument</span></div>
+    <p class="section-sub">Les 10 philosophes les plus utiles au bac</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:12px;">
+      ${[["Kant","Le devoir, la liberté, l'esthétique, la raison"],["Descartes","La conscience, le doute, la vérité, le cogito"],["Platon","La justice, la vérité, l'art, la cité idéale"],["Nietzsche","La morale, le travail, le temps, l'art"],["Freud","L'inconscient, le langage, la religion"],["Sartre","La liberté, la mauvaise foi, l'existence"],["Rousseau","La liberté, l'état de nature, la société"],["Aristote","La politique, le bonheur, la vertu, le langage"],["Marx","Le travail, l'aliénation, l'État, la religion"],["Bergson","Le temps, l'art, la conscience, la vie"]].map(([n,d]) => `<div style="background:var(--cream); border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px;"><div style="font-weight:700; font-size:0.9rem; margin-bottom:4px;">${n}</div><div style="font-size:0.78rem; color:var(--slate);">${d}</div></div>`).join('')}
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════
+// DATA — 17 NOTIONS COMPLÈTES
+// ════════════════════════════════════════════════════════
+const NOTIONS = [
+{
+  id:0, num:"01", title:"L'Art", emoji:"🎨", tag:"Esthétique",
+  desc:"Qu'est-ce qui distingue l'oeuvre d'art d'un simple objet ? L'art révèle-t-il ou trahit-il la réalité ?",
+  defs:[
+    {term:"Oeuvre d'art", def:"Production humaine qui exprime l'intériorité de l'artiste par une intention esthétique. Elle touche la sensibilité et se distingue par son inutilité apparente."},
+    {term:"Techné / Ars", def:"Étymologie grecque et latine du mot 'art'. Désignait à l'origine tout savoir-faire technique. La question est de savoir si l'art se réduit à la technique."},
+    {term:"Génie (Kant)", def:"Don naturel qui donne à l'art ses règles. Le génie crée sans pouvoir expliquer ses propres procédés — il est original et exemplaire."},
+    {term:"Beau (Kant)", def:"Ce qui plaît universellement sans concept. La beauté procure une satisfaction désintéressée — contrairement au plaisant (subjectif) et au bien (moral)."},
+    {term:"Mimesis (Platon)", def:"Imitation du réel. Pour Platon, l'art est une copie de copie qui s'éloigne deux fois de la vérité. Pour Aristote, la mimèsis est cathartique et éducative."},
+    {term:"Catharsis (Aristote)", def:"Purification des émotions que provoque la tragédie. En représentant la souffrance, l'art libère le spectateur de ses passions par identification au héros."},
+  ],
+  philosophers:[
+    {name:"Kant", period:"XVIIIe s.", badge:"oui", thesis:"Le génie artistique est un don de la nature. L'artiste crée des règles nouvelles sans pouvoir les expliquer rationnellement. Beethoven ou Mozart ne peuvent pas transmettre leur méthode.", quote:"Le génie est le talent qui donne à l'art ses règles... une disposition naturelle de l'esprit, innée, par laquelle la nature donne ses règles à l'art.", work:"Critique de la faculté de juger", example:"Beethoven compose sa 9e symphonie — en état de surdité totale — et y introduit pour la première fois un choeur. Il ne peut expliquer comment il a 'trouvé' cette idée révolutionnaire."},
+    {name:"Nietzsche", period:"XIXe s.", badge:"non", thesis:"Parler de 'génie', c'est de la vanité : pour ne pas avoir à se comparer à l'artiste. En réalité, tout grand art résulte d'un travail acharné et invisible.", quote:"Tous les grands artistes ont été de grands travailleurs... On sous-estime toute chose en train de se faire.", work:"Humain, trop humain", example:"Gustave Flaubert réécrivait chaque phrase de Madame Bovary jusqu'à 10 fois. Il passait une journée entière sur un seul paragraphe. Ce qu'on appelle 'génie' est l'aboutissement d'une discipline invisible."},
+    {name:"Platon", period:"IVe s. av. J.-C.", badge:"non", thesis:"L'artiste est un illusionniste : il produit des copies de copies (les 3 lits) qui éloignent les hommes de la vérité. Les artistes doivent être chassés de la cité idéale.", quote:"L'artiste imite l'imitation. Il est trois fois éloigné de la réalité.", work:"La République", example:"Un peintre qui représente un lit ne dit rien de l'essence du lit (qu'on ne peut saisir que par la raison). Sa peinture est moins réelle que le lit réel, qui est lui-même moins réel que l'Idée du lit."},
+    {name:"Bergson", period:"XIXe-XXe s.", badge:"oui", thesis:"L'art nous rend visible ce que nous ne percevions pas. Il révèle les qualités cachées du monde et enrichit notre façon de voir en brisant les habitudes perceptives.", quote:"À quoi vise l'art, sinon à montrer dans la nature et dans l'esprit des choses qui ne frappaient pas explicitement nos sens et notre conscience ?", work:"La Pensée et le Mouvant", example:"Les Nymphéas de Monet : en peignant 250 fois le même bassin à des heures différentes, il nous apprend à voir la lumière d'une façon que nous n'aurions jamais perçue seuls. Après Monet, on regarde différemment."},
+    {name:"Martha Nussbaum", period:"XXe-XXIe s.", badge:"oui", thesis:"La littérature et les arts développent l'empathie — la capacité à imaginer la vie d'autrui. Sans arts dans l'éducation, la démocratie s'appauvrit.", quote:"Je défends l'imagination littéraire précisément parce qu'elle me semble être un ingrédient essentiel d'une position éthique.", work:"Poetic Justice", example:"Des études ont montré que la lecture de romans de fiction augmente la capacité à reconnaître les émotions d'autrui (test de la cognition sociale). Harry Potter aide à mieux comprendre les minorités selon une étude de 2014."},
+  ],
+  debates:[
+    {q:"L'art nécessite-t-il un don naturel ?", oui:"Kant : le génie est un don inné. L'artiste crée de nouvelles règles que la nature dicte en lui, sans qu'il puisse en expliquer l'origine.", non:"Nietzsche : le 'génie' est une illusion consolante. Tout grand art est le fruit d'un travail obsessionnel que l'artiste dissimule."},
+    {q:"L'art nous détourne-t-il de la réalité ?", oui:"Platon : l'art est illusion et mensonge. Les images fascinent et maintiennent les hommes dans la caverne, loin des Idées vraies.", non:"Bergson & Nussbaum : l'art nous fait percevoir plus, pas moins. Il révèle des dimensions du réel invisibles à l'oeil non éduqué."},
+    {q:"Faut-il être cultivé pour apprécier une oeuvre ?", oui:"Hume : le goût s'éduque. Un critique non formé ne voit pas les subtilités. La délicatesse du goût exige pratique et comparaison.", non:"Kant : le beau plaît universellement sans concept. Les grandes oeuvres touchent cultivés et non-cultivés, jeunes et vieux, partout dans le monde."},
+  ],
+  examples:[
+    {icon:"🎬", title:"L'IA génère de l'art", cat:"Actualité technologique", text:"Midjourney et DALL-E créent des images d'une beauté saisissante en quelques secondes. Sont-elles de l'art ? Pour Kant, non : il n'y a pas de 'génie' ni d'intériorité. Pour Nietzsche, peut-être : c'est l'outil ultime du travail humain amplifié. Pour Platon, elles sont des copies de copies... au carré. Ce débat actualise toutes les questions classiques sur l'art."},
+    {icon:"🎭", title:"L'art brut de Jean Dubuffet", cat:"Histoire de l'art", text:"Dubuffet valorise les créations d'autodidactes, de malades mentaux, de prisonniers — sans aucune formation artistique. L'art brut remet en question le 'génie' académique : peut-on créer de l'art sans avoir appris les règles ? Cela confirme Nietzsche (le travail n'est pas tout) mais aussi Bergson (l'intériorité compte)."},
+    {icon:"🏛️", title:"La Joconde et le sourire impossible", cat:"Art classique", text:"Léonard de Vinci a travaillé 4 ans sur La Joconde. Il utilisait un procédé technique révolutionnaire : le sfumato (estompage des contours). Ce 'génie' résultait d'un travail obsessionnel sur l'optique humaine — illustration parfaite de Nietzsche. Mais Léonard ne pouvait pas expliquer 'pourquoi' ce sourire était juste — illustration de Kant."},
+    {icon:"🎵", title:"Le rap comme poésie contemporaine", cat:"Culture populaire", text:"Le rap est-il de l'art ? Pour Kant, l'intention et la forme comptent plus que le support. Kendrick Lamar ou Stromae créent des oeuvres avec une intériorité (expérience du racisme, de la dépression), une intention (dénoncer, raconter) et une réalisation technique (flows, samples) complexe. Le Prix Pulitzer décerné à Lamar en 2018 valide cette lecture."},
+  ],
+  subjects:["L'art peut-il être utile ?","Toute oeuvre d'art est-elle une imitation ?","Faut-il avoir du talent pour être artiste ?","L'art nous éloigne-t-il du réel ?","Une oeuvre d'art peut-elle être laide ?","Que cherche-t-on dans l'art ?"]
+},
+{
+  id:1, num:"02", title:"La Conscience", emoji:"🧠", tag:"Sujet & Moi",
+  desc:"Le sujet se connaît-il vraiment lui-même ? Peut-on être certain d'être conscient de tout ce que l'on est ?",
+  defs:[
+    {term:"Conscience perceptive", def:"État d'éveil : être réceptif aux informations du monde extérieur et de son corps. C'est la forme la plus basique de conscience — partagée avec certains animaux."},
+    {term:"Conscience réflexive", def:"Capacité à se prendre soi-même comme objet d'observation : 'je sais que je pense'. C'est le cogito cartésien — seul l'homme peut dire 'Je'."},
+    {term:"Conscience morale", def:"Connaissance du bien et du mal. Capacité à juger ses propres actions selon des critères éthiques. Pour Freud, c'est le surmoi intériorisé depuis l'enfance."},
+    {term:"Cogito (Descartes)", def:"'Je pense, donc je suis' : première vérité absolue issue du doute méthodique. Même si je doute de tout, le fait que je doute prouve que je pense, donc que j'existe."},
+    {term:"Inconscient cognitif", def:"Les actions automatisées par l'habitude dont nous n'avons plus conscience (conduire, marcher). Bergson : la conscience se retire des actes devenus machinaux."},
+    {term:"Surmoi (Freud)", def:"Instance psychique qui intériorise les interdits parentaux et sociaux. C'est la source de notre conscience morale — mais elle vient de l'extérieur, pas de notre raison."},
+  ],
+  philosophers:[
+    {name:"Descartes", period:"XVIIe s.", badge:"oui", thesis:"La conscience réflexive nous donne la première certitude absolue. Le cogito montre que même en doutant de tout, la pensée elle-même est indubitable.", quote:"Je pense, donc je suis. Cette proposition est nécessairement vraie, chaque fois que je la prononce.", work:"Discours de la méthode", example:"Sous anesthésie, la conscience s'éteint. Au réveil, elle reprend. Descartes dirait : pendant l'anesthésie, je n'existais pas en tant que sujet pensant — confirmant que l'être et la pensée sont liés."},
+    {name:"Kant", period:"XVIIIe s.", badge:"oui", thesis:"Seul l'homme peut dire 'Je'. Cette capacité à s'unifier dans une conscience de soi le place au-dessus de tous les autres animaux et fonde sa dignité morale.", quote:"Posséder le Je dans sa représentation : ce pouvoir place l'homme infiniment au-dessus de tous les autres êtres vivants sur la terre.", work:"Anthropologie pragmatique", example:"Un enfant de moins de 18 mois ne se reconnaît pas dans un miroir. C'est le stade du miroir (Lacan) : le moment où l'enfant acquiert une première conscience de soi comme être distinct."},
+    {name:"Freud", period:"XIXe-XXe s.", badge:"non", thesis:"L'inconscient prouve que le sujet n'est pas maître dans sa propre maison. Une partie de l'esprit reste inaccessible à la conscience et détermine pourtant nos actes.", quote:"Montrer au moi qu'il n'est seulement pas maître dans sa propre maison.", work:"L'Inquiétante Étrangeté", example:"Les actes manqués (oublier le prénom de quelqu'un qu'on déteste, se tromper dans une date d'anniversaire) révèlent des désirs inconscients qui s'expriment malgré notre volonté consciente."},
+    {name:"Bergson", period:"XIXe-XXe s.", badge:"non", thesis:"Une grande partie de notre vie se déroule en mode automatique. Nous n'avons conscience que lors des choix importants ou des apprentissages nouveaux.", quote:"Qu'arrive-t-il quand une de nos actions cesse d'être spontanée pour devenir automatique ? La conscience s'en retire.", work:"L'Énergie spirituelle", example:"Un pianiste expert n'a plus conscience de ses doigts pendant qu'il joue. Un conducteur expérimenté n'est plus conscient de chaque changement de vitesse. L'automatisme libère la conscience pour d'autres tâches."},
+    {name:"Nietzsche", period:"XIXe s.", badge:"non", thesis:"La conscience est un outil de survie sociale, pas un privilège. Elle s'est développée parce que l'homme, être faible, devait communiquer ses besoins pour survivre.", quote:"La conscience n'est qu'un réseau de communications entre les hommes ; c'est en cette seule qualité qu'elle a été forcée de se développer.", work:"Le Gai Savoir", example:"Les abeilles communiquent par danse (danse frétillante de von Frisch). Elles ont une forme de 'conscience collective' sans conscience réflexive individuelle. Ce que Nietzsche pointe : la conscience serait avant tout un outil de coordination sociale."},
+  ],
+  debates:[
+    {q:"La conscience est-elle un privilège humain ?", oui:"Kant : seul l'homme peut dire 'Je'. Cette conscience réflexive est la condition de la moralité et de la dignité — ce qui fait de l'homme une personne.", non:"Nietzsche : la conscience est un outil de survie. Elle ne témoigne d'aucune supériorité — juste d'une faiblesse compensée par la communication sociale."},
+    {q:"Peut-on se connaître soi-même ?", oui:"Descartes : le cogito prouve que la conscience nous donne une connaissance directe et certaine de notre existence. Je suis ce que je sais que je suis.", non:"Freud : l'inconscient nous échappe. Nos rêves, actes manqués, lapsus révèlent un 'moi' que la conscience ne peut saisir directement."},
+    {q:"La conscience est-elle un obstacle au bonheur ?", oui:"Pascal : la conscience de notre mortalité nous plonge dans l'angoisse. C'est pourquoi les hommes se divertissent pour fuir cette pensée insupportable.", non:"Épictète : la conscience de ce qui dépend de nous et de ce qui n'en dépend pas est la clé du bonheur stoïcien. Savoir, c'est se libérer."},
+  ],
+  examples:[
+    {icon:"🪞", title:"Le test du miroir et la conscience animale", cat:"Sciences cognitives", text:"Seuls quelques animaux se reconnaissent dans un miroir : les grands singes, les dauphins, les éléphants, les corbeaux. Ce test de la conscience de soi (Gordon Gallup, 1970) suggère que la conscience n'est pas exclusivement humaine. Pour Kant, ce serait insuffisant : ces animaux ne peuvent pas dire 'Je' au sens moral."},
+    {icon:"💊", title:"Le coma et la conscience", cat:"Médecine & philosophie", text:"Des patients en état végétatif montrent parfois de l'activité cérébrale lorsqu'on leur demande d'imaginer jouer au tennis (expérience d'Adrian Owen). Y a-t-il conscience sans communication ? Le cas pose la question de Descartes : si je pense sans pouvoir le dire, est-ce que j'existe ?"},
+    {icon:"📱", title:"Les réseaux sociaux et la conscience de soi", cat:"Contemporain", text:"Instagram et TikTok nous poussent à construire une 'image de soi' publique. Ricoeur parlerait d'identité narrative choisie. Mais Freud dirait que notre vrai 'moi' se trahit dans ce que nous publions sans y penser. La conscience de soi en ligne est-elle vraie ou performée ?"},
+  ],
+  subjects:["Suis-je ce que j'ai conscience d'être ?","Peut-on connaître son inconscient ?","La conscience fait-elle de l'homme un être à part ?","Peut-on agir sans en avoir conscience ?","La conscience de soi est-elle une connaissance de soi ?"]
+},
+{
+  id:2, num:"03", title:"Le Devoir", emoji:"⚖️", tag:"Morale & Éthique",
+  desc:"D'où viennent nos obligations morales ? Peut-on être moral sans se référer à un devoir universel ?",
+  defs:[
+    {term:"Devoir moral", def:"Obligation à faire le bien selon des règles morales. Il s'adresse à notre liberté — je peux choisir de l'accomplir ou non. Se distingue de la nécessité (contrainte physique)."},
+    {term:"Impératif catégorique", def:"Chez Kant : règle morale inconditionnelle. 'Agis selon la maxime que tu pourrais vouloir ériger en loi universelle.' Ne dépend d'aucune conséquence ni d'aucun désir."},
+    {term:"Impératif hypothétique", def:"Règle conditionnelle : 'Si tu veux X, fais Y'. Exemple : 'Si tu veux être en bonne santé, mange équilibré.' Ne relève pas de la morale au sens strict."},
+    {term:"Autonomie", def:"Se donner soi-même ses règles par la raison (Kant). S'oppose à l'hétéronomie : recevoir ses règles d'une autorité extérieure (Dieu, société, parents)."},
+    {term:"Utilitarisme", def:"Doctrine de Bentham et Mill : le devoir moral consiste à maximiser le bonheur du plus grand nombre. La bonté d'un acte se mesure à ses conséquences."},
+    {term:"Surmoi (Freud)", def:"Instance qui intériorise les commandements parentaux. Notre 'conscience morale' est souvent la voix inconsciente de nos parents — pas un choix rationnel libre."},
+  ],
+  philosophers:[
+    {name:"Kant", period:"XVIIIe s.", badge:"oui", thesis:"Le devoir moral vient de la raison pure pratique. Il doit être universel, déontologique (indépendant des conséquences) et respecter la dignité humaine.", quote:"Agis uniquement d'après la maxime dont tu peux vouloir en même temps qu'elle devienne une loi universelle.", work:"Fondements de la métaphysique des moeurs", example:"Doit-on mentir pour protéger un ami ? Pour Kant, non : le mensonge ne peut pas être universalisé (si tout le monde mentait, le langage perdrait son sens). Même si cela sauve une vie, mentir viole un principe universel."},
+    {name:"Bentham", period:"XVIIIe-XIXe s.", badge:"non", thesis:"L'utilitarisme : le devoir consiste à maximiser le bonheur du plus grand nombre par un calcul des plaisirs et peines. Les conséquences seules comptent.", quote:"Le plus grand bonheur du plus grand nombre est la mesure du juste et de l'injuste.", work:"Introduction aux principes de morale", example:"Le dilemme du tramway : faut-il dévier un tramway fou pour tuer 1 personne et sauver 5 ? Pour Bentham, oui (5 > 1). Pour Kant, non (utiliser quelqu'un comme moyen est interdit même pour sauver d'autres)."},
+    {name:"Rousseau", period:"XVIIIe s.", badge:"oui", thesis:"La pitié naturelle est la source première du devoir moral, avant toute réflexion. L'homme naît bon — c'est la société qui corrompt cet instinct moral.", quote:"L'homme naît bon, c'est la société qui le corrompt.", work:"Discours sur les sciences et les arts", example:"Un enfant de 18 mois console spontanément un autre enfant qui pleure, sans qu'on lui ait appris. Des études en psychologie du développement (Hamlin, 2007) confirment cette altruisme primitif."},
+    {name:"Freud", period:"XIXe-XXe s.", badge:"non", thesis:"Notre conscience morale (le surmoi) est le résultat de l'intériorisation des commandements parentaux. Le 'devoir' n'est souvent que l'obéissance inconsciente aux figures d'autorité.", quote:"Montrer au moi qu'il n'est seulement pas maître dans sa propre maison.", work:"L'Inquiétante Étrangeté", example:"Une personne qui se sent 'obligée' de réussir professionnellement, même au détriment de sa santé, souffre peut-être d'un surmoi parental intériorisé (parents très exigeants) — pas d'une vraie décision morale autonome."},
+  ],
+  debates:[
+    {q:"Le devoir s'oppose-t-il au bonheur ?", oui:"Kant : l'action morale est par définition désintéressée. Faire son devoir peut exiger de sacrifier son bonheur. Vouloir être heureux en faisant son devoir, c'est déjà se corrompre.", non:"Aristote : la vertu (faire son devoir) et le bonheur (eudaimonie) sont liés. Une vie vertueuse est une vie heureuse. Le devoir n'est pas une contrainte mais l'accomplissement de notre nature."},
+    {q:"Les devoirs sont-ils universels ou relatifs ?", oui:"Kant, Bentham : la raison permet de définir des devoirs universels valides pour tous les êtres rationnels, indépendamment de la culture.", non:"Nietzsche : nos 'devoirs' reflètent les instincts et les valeurs d'une époque. Ce qui était un 'devoir' au Moyen Âge (tuer pour la foi) est un crime aujourd'hui."},
+  ],
+  examples:[
+    {icon:"🌊", title:"Les sauveteurs en mer de SOS Méditerranée", cat:"Actualité", text:"Les bénévoles de SOS Méditerranée risquent leur vie et leur liberté pour sauver des migrants en mer. Ils violent parfois les lois de certains États. Pour Kant, ils respectent le devoir moral universel (tout être humain a une dignité). Pour Thoreau, c'est de la désobéissance civile légitime. Pour Bentham, le calcul est clair : sauver des vies > respecter des règlements administratifs."},
+    {icon:"💉", title:"Le dilemme du médecin en temps de pénurie", cat:"Bioéthique", text:"En 2020 (COVID), des médecins italiens ont dû choisir à qui donner les rares respirateurs. Devoir envers chaque patient individuellement (Kant) ou maximiser le nombre de survies (Bentham) ? Ce cas réel illustre la tension irréductible entre déontologie et utilitarisme."},
+    {icon:"🇫🇷", title:"La Résistance française et le devoir moral vs légal", cat:"Histoire", text:"Jean Moulin et les résistants violaient quotidiennement les lois de l'État français (légal). Mais ils obéissaient à un devoir moral supérieur (légitime). Pour Kant, pouvait-on mentir aux nazis pour cacher des Juifs ? Oui — c'est l'un des rares cas où même Kant accepterait l'exception."},
+  ],
+  subjects:["Peut-on avoir des devoirs envers soi-même ?","Le devoir exclut-il tout désir ?","Obéir, est-ce renoncer à sa liberté ?","Y a-t-il un devoir de bonheur ?","Nos devoirs viennent-ils de notre éducation ?"]
+},
+{
+  id:3, num:"04", title:"L'Inconscient", emoji:"🌙", tag:"Psyché & Désirs",
+  desc:"Y a-t-il en nous une part qui nous échappe ? L'inconscient freudien est-il scientifique ?",
+  defs:[
+    {term:"Inconscient psychique", def:"Hypothèse freudienne : partie de l'esprit inaccessible à la conscience, contenant désirs refoulés, pulsions et traumatismes. S'exprime par les rêves, lapsus, actes manqués."},
+    {term:"Refoulement", def:"Mécanisme par lequel le moi rejette dans l'inconscient les représentations insupportables ou contraires à la morale. Le refoulé n'est pas 'oublié' — il agit à l'insu du sujet."},
+    {term:"Lapsus / Acte manqué", def:"Manifestations de l'inconscient : erreurs de parole ou d'action révélatrices d'un désir inconscient. 'Le lapsus dit la vérité que la langue voulait taire.'"},
+    {term:"Ça / Moi / Surmoi", def:"3 instances psychiques de Freud. Le Ça : pulsions primitives. Le Moi : instance réaliste. Le Surmoi : instance morale intériorisée. Le conflit entre elles génère la névrose."},
+    {term:"Falsifiabilité (Popper)", def:"Critère de scientificité de Popper : une théorie est scientifique si elle peut être réfutée par l'expérience. L'inconscient freudien serait non-falsifiable et donc non-scientifique."},
+    {term:"Inconscient cognitif", def:"Version non-freudienne : ensemble des traitements mentaux automatiques (perception, mémoire implicite, habitudes). Largement validé par les neurosciences contemporaines."},
+  ],
+  philosophers:[
+    {name:"Freud", period:"XIXe-XXe s.", badge:"oui", thesis:"L'inconscient est une hypothèse scientifique nécessaire pour expliquer des phénomènes inexpliqués (troubles sans cause organique). Sa preuve : l'efficacité thérapeutique.", quote:"Les données de la conscience sont extrêmement lacunaires. Il se produit fréquemment des actes psychiques qui, pour être expliqués, présupposent d'autres actes qui ne bénéficient pas du témoignage de la conscience.", work:"Métapsychologie", example:"Anna O. (patiente de Breuer/Freud) souffrait d'une paralysie du bras sans cause neurologique. En thérapie par la parole, elle retrouva un souvenir traumatique refoulé — et la paralysie disparut. C'est la preuve par l'effet de l'inconscient."},
+    {name:"Popper", period:"XXe s.", badge:"non", thesis:"La psychanalyse n'est pas une science car ses hypothèses ne peuvent pas être réfutées. Si un patient nie avoir un complexe d'Oedipe, le psychanalyste répond qu'il l'a... refoulé. Imparable, donc invérifiable.", quote:"Une théorie qui explique tout n'explique rien.", work:"La Logique de la découverte scientifique", example:"Si je dis 'Tous les corbeaux sont noirs' et qu'on me montre un corbeau blanc, ma théorie est réfutée. Mais si je dis 'Tout enfant a un complexe d'Oedipe' et qu'un patient le nie, je peux toujours répondre qu'il l'a refoulé. La théorie devient indéfendable."},
+    {name:"Bergson", period:"XIXe-XXe s.", badge:"oui", thesis:"L'inconscient cognitif est réel et compatible avec la liberté. Les habitudes automatiques libèrent notre attention pour les vrais choix. L'inconscient n'annule pas la liberté.", quote:"Qu'arrive-t-il quand une de nos actions cesse d'être spontanée pour devenir automatique ? La conscience s'en retire.", work:"L'Énergie spirituelle", example:"Un pianiste virtuose joue les Variations Goldberg de Bach sans 'penser' à ses doigts. Cet automatisme libère son attention pour l'interprétation musicale. L'inconscient cognitif amplifie, il ne diminue pas."},
+    {name:"Sartre", period:"XXe s.", badge:"non", thesis:"L'inconscient est une illusion commode pour fuir sa responsabilité — c'est de la 'mauvaise foi'. L'homme est toujours libre et toujours responsable de ses actes.", quote:"L'existentialiste ne croit pas à la puissance de la passion... L'homme est responsable de sa passion.", work:"L'existentialisme est un humanisme", example:"Quelqu'un qui dit 'Je ne peux pas m'en empêcher, c'est mon inconscient' pour justifier une infidélité ou une violence est, pour Sartre, en pleine mauvaise foi. Il choisit de ne pas choisir — et cela reste un choix."},
+  ],
+  debates:[
+    {q:"L'inconscient freudien est-il scientifique ?", oui:"Freud : l'hypothèse est nécessaire (elle explique des phénomènes non expliqués autrement) et vérifiable par ses effets thérapeutiques. Des études en neurosciences valident l'existence de traitements non-conscients.", non:"Popper : une hypothèse invérifiable n'est pas scientifique. La psychanalyse peut tout expliquer — donc elle n'explique rien de précis. Les neurosciences ont rendu la psychanalyse obsolète."},
+    {q:"L'inconscient supprime-t-il la liberté ?", oui:"Freud : nos actes sont souvent déterminés par des forces inconscientes que nous ne maîtrisons pas. 'Le moi n'est pas maître dans sa propre maison.'", non:"Bergson : l'inconscient cognitif (habitudes automatiques) libère notre conscience pour les vrais choix. Et Sartre : nier sa liberté au nom de l'inconscient, c'est de la mauvaise foi."},
+  ],
+  examples:[
+    {icon:"🧪", title:"Les neurosciences et l'inconscient cognitif", cat:"Science contemporaine", text:"L'expérience de Benjamin Libet (1983) : le cerveau active les muscles 300 ms AVANT que le sujet ait conscience de sa décision de bouger. L'inconscient cognitif précède la conscience. Cela remet en question le libre arbitre — sans valider Freud pour autant."},
+    {icon:"🎭", title:"Les rêves dans la culture", cat:"Anthropologie", text:"Toutes les cultures humaines accordent une importance aux rêves : oracles grecs, visions dans la Bible, interprétation chamanique. Freud a 'rationalisé' ce savoir universel en transformant le rêve en 'voie royale vers l'inconscient'. Le rêve révèle des désirs que la censure sociale refoule le jour."},
+    {icon:"🤳", title:"Les biais cognitifs inconscients", cat:"Psychologie sociale", text:"Des biais cognitifs inconscients influencent nos jugements à notre insu : le biais de confirmation (on cherche les infos qui nous confortent), le biais de représentativité (les préjugés), l'effet de halo (un beau CV semble plus compétent). Ces biais sont de l'inconscient cognitif — validé par des milliers d'expériences rigoureuses."},
+  ],
+  subjects:["Peut-on se libérer de son inconscient ?","L'inconscient est-il une excuse ?","Y a-t-il une science de l'inconscient ?","Suis-je responsable de mes actes inconscients ?"]
+},
+{
+  id:4, num:"05", title:"La Justice", emoji:"⚖️", tag:"Politique & Société",
+  desc:"Qu'est-ce qu'une société juste ? Peut-on désobéir à une loi injuste ?",
+  defs:[
+    {term:"Justice morale", def:"Vertu consistant à donner à chacun ce qui lui est dû. Elle implique impartialité, équité et respect de la dignité de chacun."},
+    {term:"Justice légale", def:"Ensemble des institutions (tribunaux, lois) qui font respecter le droit positif. Elle peut parfois entrer en conflit avec la justice morale."},
+    {term:"Droit naturel", def:"Droits inhérents à la nature humaine, antérieurs à toute loi positive. Fondement des Droits de l'Homme. Ce qui est légitime même sans être légal."},
+    {term:"Désobéissance civile", def:"Refus non-violent et public d'obéir à une loi jugée injuste, en acceptant d'en subir les conséquences légales (Thoreau, Gandhi). Vise à changer la loi, pas à l'esquiver."},
+    {term:"Voile d'ignorance", def:"Expérience de pensée de Rawls : imaginer les règles d'une société juste sans savoir quelle place on y occupera. Permet de définir des principes neutres et équitables."},
+    {term:"Monopole de violence (Weber)", def:"L'État est la seule institution qui a le droit d'user légitimement de la force physique sur un territoire donné. C'est la définition sociologique de l'État."},
+  ],
+  philosophers:[
+    {name:"Rawls", period:"XXe s.", badge:"oui", thesis:"Une société juste garantit les libertés de base ET que les inégalités économiques bénéficient aux plus défavorisés (principe de différence).", quote:"Les inégalités sociales et économiques doivent être au plus grand avantage des membres les plus défavorisés de la société.", work:"Théorie de la justice", example:"Le système fiscal progressif : les plus riches paient plus d'impôts pour financer l'éducation et la santé des plus pauvres. Pour Rawls, c'est juste car derrière le 'voile d'ignorance', on choisirait ce système sans savoir si l'on naîtrait riche ou pauvre."},
+    {name:"Platon", period:"IVe s. av. J.-C.", badge:"non", thesis:"La démocratie est un régime injuste car elle donne la parole aux incompétents. Seuls les philosophes-rois, ayant accédé à la connaissance du Bien, peuvent gouverner justement.", quote:"Lorsqu'il faut décider de l'administration de la cité, on voit se lever indifféremment charpentier, forgeron, cordonnier... sans avoir appris d'aucune source.", work:"La République / Protagoras", example:"Voter sur un vaccin ou sur une politique climatique sans compétence scientifique, c'est l'argument platonicien contre la démocratie directe. Pour lui, gouverner exige un savoir spécifique comme construire un navire."},
+    {name:"Thoreau", period:"XIXe s.", badge:"oui", thesis:"Quand la loi est injuste, la désobéissance civile devient un devoir moral. La conscience morale prime sur la loi positive. Il faut accepter la prison plutôt que de cautionner l'injustice.", quote:"La seule obligation que j'ai le droit d'adopter, c'est d'agir à tout moment selon ce qui me paraît juste.", work:"La désobéissance civile", example:"Rosa Parks (1955) : en refusant de céder sa place à un Blanc dans un bus, elle viole la loi ségrégationniste de l'Alabama. Acte de désobéissance civile qui déclenche un boycott de 13 mois et accélère le mouvement des droits civiques."},
+    {name:"Aristote", period:"IVe s. av. J.-C.", badge:"oui", thesis:"La délibération collective est supérieure aux décisions individuelles, même expertes. La multitude réunie acquiert une sagesse collective supérieure à l'élite.", quote:"La multitude, composée d'individus sans valeur, est susceptible, prise en corps, de se montrer supérieure à l'élite.", work:"La Politique", example:"Les jurys populaires en droit pénal : 12 jurés ordinaires, délibérant ensemble, arrivent à des verdicts souvent plus équitables qu'un juge seul, selon des études de sociologie judiciaire."},
+  ],
+  debates:[
+    {q:"Peut-on désobéir à une loi injuste ?", oui:"Thoreau, Gandhi, Luther King : quand la loi viole la dignité humaine, la désobéissance civile est un devoir. L'histoire a toujours donné raison aux désobéissants (contre l'esclavage, l'apartheid, le nazisme).", non:"Spinoza, Hobbes : permettre à chacun de juger du juste par soi-même, c'est ouvrir la voie à l'anarchie. La paix sociale vaut plus qu'une loi imparfaite."},
+    {q:"Y a-t-il des inégalités justes ?", oui:"Rawls : les inégalités sont justes si elles profitent aux plus défavorisés. Un chirurgien gagne plus — mais sa compétence rare sauve des vies. Ses impôts financent l'hôpital public.", non:"Rousseau : toute inégalité durable crée de la domination et corrompt la liberté. L'égalité devant la loi est la condition minimale de la justice."},
+  ],
+  examples:[
+    {icon:"🇿🇦", title:"La fin de l'apartheid : droit vs justice", cat:"Histoire contemporaine", text:"L'apartheid en Afrique du Sud était légal selon le droit positif sud-africain (1948-1991). Il était pourtant profondément illégitime selon la justice naturelle. Mandela a été condamné légalement à perpétuité (légal) pour avoir résisté à ce régime. La tension légal/légitime n'a jamais été plus criante."},
+    {icon:"🌱", title:"La justice environnementale et les générations futures", cat:"Éthique contemporaine", text:"Peut-on être juste envers ceux qui ne sont pas encore nés ? Hans Jonas et Rawls pensent que oui. Le procès du siècle (L'Affaire du Siècle en France, 2019) a condamné l'État français pour 'inaction climatique'. C'est une nouvelle forme de justice — intergénérationnelle."},
+    {icon:"⚖️", title:"Le tribunal de Nuremberg et le droit naturel", cat:"Histoire & philosophie du droit", text:"En 1945, des officiers nazis sont condamnés pour 'crimes contre l'humanité' — des crimes qui n'existaient pas dans le droit positif de l'époque. Le tribunal invoque un droit naturel supérieur aux lois positives nationales. C'est la victoire du légitime sur le légal."},
+  ],
+  subjects:["La justice est-elle une affaire de sentiment ou de raison ?","Peut-on préférer l'injustice au désordre ?","Qu'est-ce qu'une peine juste ?","La loi peut-elle être injuste ?","Justice et égalité sont-elles compatibles ?"]
+},
+{
+  id:5, num:"06", title:"La Liberté", emoji:"🕊️", tag:"Existence & Choix",
+  desc:"Sommes-nous vraiment libres ? La liberté se conquiert-elle ou est-elle un donné ?",
+  defs:[
+    {term:"Libre arbitre", def:"Capacité de choisir entre plusieurs options sans contrainte. La liberté comme pouvoir de la volonté de se déterminer elle-même, indépendamment de toute cause extérieure."},
+    {term:"Déterminisme", def:"Doctrine selon laquelle tout événement, y compris nos actions, est causalement déterminé par des facteurs antérieurs (génétique, éducation, milieu social, physique)."},
+    {term:"Autonomie (Kant)", def:"Se donner à soi-même ses propres règles par la raison. Être autonome, c'est obéir à la loi qu'on s'est soi-même prescrite — et non à ses désirs ou à une autorité."},
+    {term:"Mauvaise foi (Sartre)", def:"Attitude qui consiste à nier sa liberté pour fuir la responsabilité de ses choix. On fait comme si on était 'obligé' alors qu'on choisit toujours — même en ne choisissant pas."},
+    {term:"Compatibilisme", def:"Position philosophique qui concilie déterminisme et liberté : être libre, c'est agir selon ses propres désirs sans contrainte extérieure, même si ces désirs sont eux-mêmes causalement déterminés."},
+    {term:"Liberté civile", def:"Liberté garantie par les lois de l'État. Paradoxalement, la loi (qui limite) est la condition de la liberté réelle (qui empêche la domination du plus fort)."},
+  ],
+  philosophers:[
+    {name:"Descartes", period:"XVIIe s.", badge:"oui", thesis:"Nous ressentons notre liberté chaque fois que nous prenons une décision. Cette expérience directe est une preuve suffisante. La volonté humaine est infinie — elle seule est à l'image de Dieu.", quote:"La liberté de notre volonté se connaît sans preuve, par la seule expérience que nous en avons.", work:"Principes de la philosophie", example:"Quand je dois choisir entre deux offres d'emploi, je ressens un vertige : aucune force extérieure ne décide à ma place. Je délibère, j'hésite, et je choisis. Cette expérience vécue est, pour Descartes, la preuve du libre arbitre."},
+    {name:"Spinoza", period:"XVIIe s.", badge:"non", thesis:"Le sentiment de liberté est une illusion : nous croyons être libres parce que nous ignorons les causes qui nous déterminent. Tout est rigoureusement déterminé par la nécessité de la nature.", quote:"Les hommes se croient libres pour cette seule cause qu'ils sont conscients de leurs actions et ignorants des causes par où ils sont déterminés.", work:"Lettre à Schuller", example:"Une pierre lancée en l'air qui deviendrait consciente croirait voler librement. Elle ignorerait qu'elle est déterminée par la force initiale et la gravité. L'homme est cette pierre — déterminé par sa nature, son éducation, ses désirs."},
+    {name:"Sartre", period:"XXe s.", badge:"oui", thesis:"L'homme est 'condamné à être libre' : il n'a pas d'essence préalable, il se définit par ses choix. Prétendre ne pas être libre, c'est de la mauvaise foi.", quote:"L'homme est condamné à être libre ; condamné, parce qu'il ne s'est pas créé lui-même, et par ailleurs libre, parce qu'une fois jeté dans le monde, il est responsable de tout ce qu'il fait.", work:"L'existentialisme est un humanisme", example:"Un collaborateur sous l'Occupation dit 'Je n'avais pas le choix'. Pour Sartre, c'est de la mauvaise foi : il a choisi de survivre plutôt que de résister. Choisir de ne pas choisir, c'est encore choisir."},
+    {name:"Kant", period:"XVIIIe s.", badge:"oui", thesis:"La vraie liberté n'est pas l'arbitraire (faire ce qu'on veut) mais l'autonomie (obéir à la loi de sa raison). Se soumettre à ses désirs, c'est être esclave.", quote:"Sapere aude ! Aie le courage de te servir de ton propre entendement.", work:"Qu'est-ce que les Lumières ?", example:"Un alcoolique qui dit 'je ne peux pas m'en empêcher' n'est pas libre — il est esclave de sa dépendance. La vraie liberté, pour Kant, exige de résister aux penchants pour suivre la raison."},
+  ],
+  debates:[
+    {q:"Sommes-nous vraiment libres ?", oui:"Descartes et Sartre : nous faisons l'expérience de notre liberté à chaque décision. Et même notre déterminisme, nous le choisissons en y consentant ou en y résistant.", non:"Spinoza et les neurosciences : nos choix sont déterminés par des causes biologiques, psychologiques et sociales que nous ignorons. L'expérience de liberté est une illusion."},
+    {q:"Être libre, est-ce faire tout ce qu'on veut ?", oui:"Calliclès (dans Platon) : la vraie vie est celle des désirs pleinement satisfaits. Se contraindre, c'est vivre à moitié.", non:"Kant et Épictète : obéir à ses désirs, c'est être esclave. La vraie liberté est maîtrise de soi, autonomie rationnelle. La loi n'empêche pas la liberté — elle la garantit."},
+    {q:"Faut-il apprendre à être libre ?", oui:"Kant : la paresse et la lâcheté maintiennent les hommes dans la minorité intellectuelle. Il faut le courage de penser par soi-même.", non:"Sartre : la liberté n'est pas acquise, elle est originaire. On ne peut pas ne pas être libre — même la fuite de la liberté est libre."},
+  ],
+  examples:[
+    {icon:"🧬", title:"La génétique détermine-t-elle nos choix ?", cat:"Sciences & philosophie", text:"Des études sur des jumeaux monozygotes montrent que des comportements comme l'agressivité, le conservatisme politique ou même la tendance au divorce ont une composante génétique (~50%). Cela invalide-t-il le libre arbitre ? Pas nécessairement : la génétique crée des prédispositions, pas des destinées. Spinoza dirait oui, déterminé. Sartre dirait : tu choisis d'y céder ou non."},
+    {icon:"🏛️", title:"Mandela en prison : liberté intérieure", cat:"Histoire", text:"Nelson Mandela, emprisonné 27 ans, refusa systématiquement les offres de libération conditionnelle qui l'auraient obligé à renoncer à ses idées. Il était physiquement contraint mais intérieurement libre. Kant et Épictète diraient : la vraie liberté est intérieure et ne dépend pas des chaînes."},
+    {icon:"💻", title:"L'IA et la liberté humaine", cat:"Contemporain", text:"Les algorithmes de recommandation (YouTube, TikTok, Spotify) créent des 'bulles de filtre' qui orientent nos choix sans que nous nous en rendions compte. Sommes-nous encore libres de choisir notre musique, nos informations, nos idées ? Spinoza dirait : la liberté a toujours été une illusion. Sartre : mais tu peux choisir d'éteindre l'écran."},
+  ],
+  subjects:["La liberté est-elle une illusion ?","Peut-on être libre sans les autres ?","La loi libère-t-elle ou opprime-t-elle ?","Être libre, est-ce n'obéir à rien ?","Peut-on être libre et déterminé ?"]
+},
+{
+  id:6, num:"07", title:"La Nature", emoji:"🌿", tag:"Cosmologie & Écologie",
+  desc:"L'homme fait-il partie de la nature ? A-t-on des devoirs envers elle ?",
+  defs:[
+    {term:"Nature (cosmos)", def:"L'ensemble des êtres et phénomènes non créés par l'homme. Ce qui existe indépendamment de toute intervention humaine — les arbres, les animaux, les galaxies."},
+    {term:"Nature humaine", def:"Ce qui est inné, universel et constant chez l'être humain — par opposition à ce qui est acquis par l'éducation ou la culture. Existe-t-elle vraiment ?"},
+    {term:"État de nature", def:"Hypothèse philosophique : comment les hommes vivaient-ils avant la société ? Hobbes (guerre), Rousseau (paix naturelle), Locke (propriété et travail)."},
+    {term:"Culture / Nature", def:"Opposition fondamentale : la culture transforme la nature (agriculture, éducation, art). L'homme est-il l'animal qui 'dénature' la nature ou celui qui la complète ?"},
+    {term:"Principe de responsabilité", def:"Éthique de Hans Jonas : nous avons le devoir d'agir de façon compatible avec la permanence d'une vie humaine sur Terre, en intégrant les générations futures."},
+    {term:"Deep Ecology", def:"Courant philosophique (Arne Naess) : la nature a une valeur intrinsèque indépendante de son utilité pour l'homme. Elle n'est pas un 'stock de ressources' mais un sujet de droit."},
+  ],
+  philosophers:[
+    {name:"Descartes", period:"XVIIe s.", badge:"oui", thesis:"Par la science et la technique, l'homme peut devenir 'maître et possesseur de la nature'. La connaissance des lois naturelles donne le pouvoir de les contrôler.", quote:"Ces connaissances nous pourraient rendre comme maîtres et possesseurs de la nature.", work:"Discours de la méthode", example:"La médecine moderne : nous avons éliminé la variole, réduit la mortalité infantile de 90%, allongé l'espérance de vie de 30 ans en un siècle. C'est la maîtrise cartésienne de la nature en action."},
+    {name:"Rousseau", period:"XVIIIe s.", badge:"non", thesis:"La civilisation corrompt l'homme naturellement bon. La technique nous rend dépendants et affaiblit nos qualités naturelles. L'homme sauvage était plus libre et plus heureux.", quote:"L'homme naît bon, c'est la société qui le corrompt.", work:"Discours sur l'inégalité", example:"Des études anthropologiques sur des tribus d'Amazonie isolées montrent souvent des individus au dos droit, sans caries, en excellente santé musculaire — vs les sociétés industrielles avec obésité, sédentarité, souffrance mentale."},
+    {name:"Hans Jonas", period:"XXe s.", badge:"oui", thesis:"Notre puissance technologique a dépassé notre sagesse éthique. Nous pouvons désormais détruire les conditions de vie sur Terre. La peur est légitime et doit guider une éthique de la précaution.", quote:"Agis de telle sorte que tes actions soient compatibles avec la permanence d'une vie humaine authentique sur la terre.", work:"Le Principe de responsabilité", example:"Le changement climatique : les émissions de CO2 d'aujourd'hui affecteront les températures en 2100. Pour la première fois, nos décisions actuelles déterminent les conditions de vie de gens qui ne sont pas encore nés — c'est l'enjeu éthique de Jonas."},
+    {name:"Montaigne", period:"XVIe s.", badge:"oui", thesis:"Les frontières entre l'homme et les autres animaux sont artificielles. Les animaux sentient, communiquent, jouent, souffrent. Nous leur devons bienveillance et justice.", quote:"Il y a quelques relations sociales entre elles et nous, et quelque obligation mutuelle.", work:"Les Essais", example:"Les études actuelles sur la souffrance animale (Jeremy Bentham avait anticipé : 'La question n'est pas : peuvent-ils raisonner ? mais : peuvent-ils souffrir ?') ont conduit aux lois sur le bien-être animal et au véganisme comme mouvement éthique."},
+  ],
+  debates:[
+    {q:"L'homme peut-il maîtriser la nature ?", oui:"Descartes : oui, et c'est son destin. La science donne à l'homme les moyens de prolonger sa vie, lutter contre les maladies et améliorer ses conditions d'existence.", non:"Jonas & Pascal : l'homme est trop petit et trop limité pour prétendre maîtriser un cosmos infini. Sa puissance technique actuelle est en train de se retourner contre lui."},
+    {q:"A-t-on des devoirs envers la nature ?", oui:"Montaigne, Jonas : les êtres sensibles méritent notre bienveillance. Et les générations futures ont droit à une planète habitable.", non:"Kant : nous n'avons de devoirs qu'envers les êtres doués de raison. La nature n'a pas de droits — mais nous avons des devoirs envers les humains futurs."},
+  ],
+  examples:[
+    {icon:"🌡️", title:"Le GIEC et la responsabilité éthique", cat:"Actualité écologique", text:"Le dernier rapport du GIEC (2023) montre que nous avons 10 ans pour limiter le réchauffement à 1,5°C. C'est exactement le scénario prévu par Jonas : notre technologie (énergies fossiles) détruit les conditions de notre propre survie. La tension entre maîtrise cartésienne et principe de responsabilité jonasien n'a jamais été aussi concrète."},
+    {icon:"🐋", title:"Les droits des animaux et la philosophie", cat:"Bioéthique", text:"Peter Singer (philosophe utilitariste) argumente que la capacité à souffrir, non la raison, est le critère moral pertinent. Les cochons souffrent autant que les chiens — pourquoi les traiter différemment ? Ce 'spécisme' est-il rationnel ? Montaigne aurait souscrit."},
+    {icon:"🌳", title:"L'Ecuador et les droits de la nature", cat:"Droit international", text:"En 2008, l'Équateur a inscrit dans sa Constitution les droits de la Nature (Pacha Mama). En 2017, la Nouvelle-Zélande a accordé la personnalité juridique à la rivière Whanganui. C'est la traduction juridique de la deep ecology : la nature comme sujet de droit, pas seulement objet de protection."},
+  ],
+  subjects:["L'homme est-il un animal comme les autres ?","Peut-on se donner pour règle de suivre la nature ?","La culture est-elle contre nature ?","Avons-nous des devoirs envers les animaux ?","La maîtrise de la nature est-elle un progrès ?"]
+},
+{
+  id:7, num:"08", title:"La Raison", emoji:"💡", tag:"Connaissance & Logique",
+  desc:"La raison est-elle le propre de l'homme ? Peut-elle tout expliquer ?",
+  defs:[
+    {term:"Rationalité", def:"Capacité à lier des propositions de façon logique, à distinguer le vrai du faux et à justifier ses assertions par des preuves ou démonstrations."},
+    {term:"Être raisonnable", def:"Dans la vie pratique : anticiper les conséquences de ses actes, rester mesuré, éviter les excès. La raison appliquée à la conduite de vie."},
+    {term:"Intuition intellectuelle", def:"Chez Descartes : perception directe et claire d'une idée évidente, qui résiste au doute. Première étape de la connaissance avant la déduction."},
+    {term:"Logos", def:"En grec : à la fois raison et discours. L'homme est l'animal qui possède le logos (Aristote) : capable d'argumenter sur le juste, l'injuste, l'utile."},
+    {term:"Lumières (Aufklärung)", def:"Mouvement philosophique (XVIIIe s.) qui fait de la raison le guide de l'humanité contre l'obscurantisme, les préjugés et les superstitions. Kant : 'Sapere aude !'"},
+    {term:"Dialectique", def:"Art de raisonner par questions-réponses pour atteindre la vérité (Socrate, Platon). Chez Hegel : processus historique de dépassement des contradictions."},
+  ],
+  philosophers:[
+    {name:"Descartes", period:"XVIIe s.", badge:"oui", thesis:"En suivant une méthode rigoureuse (doute, intuition, déduction, dénombrement), on peut parvenir à des certitudes absolues. La raison bien conduite est infaillible.", quote:"Car ce n'est pas assez d'avoir l'esprit bon, mais le principal est de l'appliquer bien.", work:"Discours de la méthode", example:"La démonstration que la somme des angles d'un triangle = 180° est vraie pour tous les triangles de tous les univers possibles. C'est ce que Descartes appelle une connaissance rationnelle certaine — indépendante de l'expérience."},
+    {name:"Pascal", period:"XVIIe s.", badge:"non", thesis:"La raison est limitée : elle ne peut pas tout expliquer. Ce que le coeur saisit — Dieu, l'amour, les premières évidences — lui échappe. La raison doit connaître ses propres limites.", quote:"Le coeur a ses raisons que la raison ne connaît pas.", work:"Pensées", example:"Pourquoi aimer quelqu'un ? On peut donner des raisons ('il est drôle, généreux...') mais elles ne suffisent jamais à expliquer l'amour lui-même. Pascal dirait : l'amour est connu par le coeur, pas par la raison."},
+    {name:"Rousseau", period:"XVIIIe s.", badge:"non", thesis:"La raison, en nous poussant à calculer notre intérêt, nous éloigne de l'altruisme naturel. Le coeur et la pitié sont des guides moraux plus fiables que la raison froide.", quote:"C'est la raison qui engendre l'amour-propre, et c'est la réflexion qui le fortifie.", work:"Discours sur l'inégalité", example:"Un froid calcul rationnel peut justifier l'exploitation des autres si c'est dans notre intérêt. Les économistes du XIXe siècle, parfaitement 'rationnels', ont justifié l'esclavage comme économiquement efficace."},
+    {name:"Kant", period:"XVIIIe s.", badge:"oui", thesis:"La raison est ce qui nous distingue et ce qui nous libère. Oser penser par soi-même (Sapere aude) est le projet des Lumières. La raison est la source de la morale et de la liberté.", quote:"Sapere aude ! Aie le courage de te servir de ton propre entendement.", work:"Qu'est-ce que les Lumières ?", example:"La révolution copernicienne : Copernic a osé, contre l'autorité de l'Église, affirmer que la Terre tourne autour du Soleil. C'est le modèle du courage intellectuel kantien : la raison contre le préjugé."},
+  ],
+  debates:[
+    {q:"La raison peut-elle tout expliquer ?", oui:"Leibniz : 'Rien n'est sans raison.' Tout a une cause ; si quelque chose semble irrationnel, c'est que notre raison est limitée, pas l'univers.", non:"Pascal, Bergson : certaines expériences (foi, intuition artistique, amour) ne peuvent être saisies que par le coeur ou l'intuition — la raison les appauvrit."},
+    {q:"Peut-on avoir raison seul ?", oui:"Descartes : si l'on suit rigoureusement la méthode, un individu isolé peut parvenir à des vérités que tout le monde ignore.", non:"J.S. Mill : la raison se perfectionne dans le dialogue. La confrontation aux objections des autres est la meilleure garantie d'avoir raison."},
+  ],
+  examples:[
+    {icon:"🤖", title:"L'IA est-elle rationnelle ?", cat:"Philosophie de l'esprit", text:"Un ordinateur ne fait pas d'erreur de logique. Pourtant il peut produire des conclusions absurdes si ses données sont biaisées. La raison pure (logique formelle) ne suffit pas sans le jugement. Aristote distinguait la raison théorique (logique) et la raison pratique (phronesis, sagesse pratique). L'IA a la première, pas la seconde."},
+    {icon:"🧬", title:"Le débat sur les OGM et la raison vs le sentiment", cat:"Science & société", text:"Scientifiquement, les OGM autorisés sont sûrs selon l'OMS. Pourtant, leur rejet populaire est massif. Pascal dirait : le coeur (l'instinct de méfiance envers le 'artificiel') s'oppose à la raison (les études). Kant dirait : éclairons le peuple. Rousseau : l'instinct naturel mérite peut-être d'être entendu."},
+  ],
+  subjects:["La raison peut-elle rendre raison de tout ?","Peut-on avoir raison contre tous ?","Y a-t-il un mauvais usage de la raison ?","La raison est-elle propre à l'homme ?","Faut-il toujours se fier à la raison ?"]
+},
+{
+  id:8, num:"09", title:"La Religion", emoji:"✨", tag:"Foi & Transcendance",
+  desc:"La foi et la raison sont-elles compatibles ? La religion est-elle nécessaire à la société ?",
+  defs:[
+    {term:"Religion", def:"Croyance commune à un groupe en un principe sacré ou divin, créant un lien (religare) entre les croyants et entre eux et le sacré. Elle suppose un dogme, des rites et une communauté."},
+    {term:"Foi", def:"Adhésion à une vérité non démontrable rationnellement. La foi s'oppose à la connaissance scientifique mais ne s'y réduit pas — elle est une expérience existentielle."},
+    {term:"Dogme", def:"Vérité de foi acceptée par une communauté sans discussion critique. Fondement de la croyance religieuse — ce qui distingue la religion de la philosophie."},
+    {term:"Laïcité", def:"Principe de séparation de la sphère publique et religieuse. L'État est neutre par rapport aux religions. En France depuis la loi de 1905."},
+    {term:"Pari de Pascal", def:"Argument pragmatique : si Dieu existe et qu'on ne croit pas, on perd tout. Si Dieu n'existe pas et qu'on croit, on perd peu. Il est donc rationnel de parier pour l'existence de Dieu."},
+    {term:"Opium du peuple (Marx)", def:"La religion anesthésie les opprimés en leur promettant un bonheur posthume. Elle détourne les classes populaires de la révolte contre leur exploitation réelle."},
+  ],
+  philosophers:[
+    {name:"Pascal", period:"XVIIe s.", badge:"oui", thesis:"Le coeur, pas la raison, permet de saisir Dieu. Le pari de Pascal montre qu'il est pragmatiquement rationnel de croire. La foi est une expérience qui dépasse la démonstration.", quote:"Le coeur a ses raisons que la raison ne connaît pas. [...] C'est le coeur qui sent Dieu, et non la raison.", work:"Pensées", example:"William James (psychologue, XIXe s.) a documenté des 'expériences religieuses' qui transforment radicalement des individus (conversions, mystiques). Pour lui, ces expériences sont réelles — même si leur objet (Dieu) ne peut être prouvé."},
+    {name:"Marx", period:"XIXe s.", badge:"non", thesis:"La religion est 'l'opium du peuple' : elle console les opprimés en promettant un paradis posthume, les détournant de la transformation des conditions réelles d'exploitation.", quote:"La religion est l'opium du peuple. Abolir la religion en tant que bonheur illusoire du peuple, c'est exiger son bonheur réel.", work:"Critique de la philosophie du droit de Hegel", example:"Au XIXe siècle, les Évangélistes américains prêchaient aux ouvriers de 'ne pas se révolter contre leur maître' (Épître aux Romains). Les patrons finançaient les Églises. C'est l'illustration exacte de la critique marxiste."},
+    {name:"Durkheim", period:"XIXe-XXe s.", badge:"oui", thesis:"La religion ne disparaîtra pas car elle remplit des fonctions irremplaçables : cohésion sociale, sens de l'existence, force vitale. La science ne peut pas assurer ces fonctions.", quote:"La vraie fonction de la religion n'est pas de nous faire penser, mais de nous faire agir, de nous aider à vivre.", work:"Les Formes élémentaires de la vie religieuse", example:"Les études sociologiques montrent que les personnes religieuses pratiquantes vivent en moyenne plus longtemps, ont moins de dépression et un réseau social plus fort (Robert Putnam, Bowling Alone). Durkheim avait prévu cet effet intégrateur."},
+    {name:"Freud", period:"XIXe-XXe s.", badge:"non", thesis:"La religion est une illusion consolante — la projection d'un 'père tout-puissant' que l'homme crée pour compenser son sentiment d'impuissance face à la nature et à la mort.", quote:"L'homme ne peut pas éternellement demeurer un enfant. Il lui faut enfin s'aventurer dans l'univers hostile.", work:"L'Avenir d'une illusion", example:"L'athéisme progresse dans les pays les plus développés (Suède, Danemark, Pays-Bas). Pour Freud, cela confirme que la religion recule quand la science et la sécurité sociale réduisent l'angoisse existentielle."},
+  ],
+  debates:[
+    {q:"La science peut-elle se substituer à la religion ?", oui:"Auguste Comte : l'humanité passe du stade théologique (religion) au stade positif (science). Freud : la science libère l'homme de l'illusion réconfortante.", non:"Durkheim : la religion remplit des fonctions sociales irremplaçables. Pascal : la science répond au 'comment', pas au 'pourquoi' de l'existence."},
+    {q:"Est-il raisonnable de croire en Dieu ?", oui:"Pascal : le pari montre qu'il est rationnellement prudent de croire. Et la foi est une expérience qui dépasse la démonstration — elle n'a pas à se justifier par la raison.", non:"Spinoza : croire en un Dieu 'à notre image' est de l'anthropomorphisme. Les hommes projettent leurs propriétés humaines sur l'inconnaissable."},
+  ],
+  examples:[
+    {icon:"🧬", title:"Science vs créationnisme aux USA", cat:"Contemporain", text:"40% des Américains croient que l'homme a été créé tel quel par Dieu il y a moins de 10 000 ans (sondage Gallup 2023) — malgré 150 ans de preuves évolutives. Ce conflit illustre la tension Pascal vs Spinoza : la foi peut coexister avec la raison ou la nier."},
+    {icon:"🕌", title:"Le retour du religieux dans le monde", cat:"Sociologie", text:"Contrairement aux prévisions de Comte et Freud, la religion ne recule pas globalement. L'islam est la religion à la plus forte croissance mondiale. En Afrique, le christianisme évangélique explose. Ce 'retour du religieux' valide Durkheim : la religion répond à des besoins que la modernité n'a pas éliminés."},
+  ],
+  subjects:["La religion est-elle une affaire privée ?","Foi et raison sont-elles compatibles ?","Une société sans religion est-elle possible ?","La religion est-elle nécessaire à la morale ?","Peut-on se passer de Dieu ?"]
+},
+{
+  id:9, num:"10", title:"La Science", emoji:"🔬", tag:"Connaissance & Méthode",
+  desc:"La science nous donne-t-elle accès à la réalité ? Ses vérités sont-elles définitives ?",
+  defs:[
+    {term:"Science", def:"Ensemble de connaissances rationnelles, objectives et vérifiables portant sur un domaine déterminé, obtenues par démonstration ou observation rigoureuse."},
+    {term:"Méthode expérimentale", def:"Claude Bernard : Observation → Hypothèse → Expérimentation → Vérification. Si les résultats confirment l'hypothèse, elle devient théorie. Sinon, elle est falsifiée."},
+    {term:"Induction", def:"Raisonnement qui part de cas particuliers observés pour induire une loi générale. Problème (Hume) : jamais totalement certain — un contre-exemple suffit à réfuter."},
+    {term:"Falsifiabilité (Popper)", def:"Une théorie est scientifique si et seulement si elle peut être réfutée par l'expérience. Ce qui ne peut pas être réfuté n'est pas de la science — c'est de la métaphysique."},
+    {term:"Paradigme (Kuhn)", def:"Ensemble de principes qui font consensus dans une communauté scientifique. La science normale résout des 'puzzles' dans ce cadre. La révolution scientifique change le paradigme."},
+    {term:"Épistémologie", def:"Philosophie des sciences : réflexion sur les conditions, méthodes et limites de la connaissance scientifique. Bachelard, Popper, Kuhn sont des épistémologues."},
+  ],
+  philosophers:[
+    {name:"Claude Bernard", period:"XIXe s.", badge:"oui", thesis:"La méthode expérimentale permet de vérifier des hypothèses de façon rigoureuse. La science n'est pas une opinion — elle est une connaissance vérifiée par les faits.", quote:"L'observateur écoute la nature, l'expérimentateur l'interroge et la force à se dévoiler.", work:"Introduction à la médecine expérimentale", example:"La découverte de la pénicilline : Fleming observe une moisissure qui tue des bactéries (observation), formule l'hypothèse d'un antibiotique (hypothèse), vérifie sur des souris (expérimentation) → la pénicilline a sauvé des dizaines de millions de vies."},
+    {name:"Popper", period:"XXe s.", badge:"oui", thesis:"La science progresse non par vérification mais par réfutation. Une bonne théorie est celle qu'on n'a pas encore réussit à réfuter — pas celle qu'on a prouvée.", quote:"Notre science n'est pas connaissance (episteme) : elle ne peut jamais prétendre avoir atteint la vérité.", work:"La Logique de la découverte scientifique", example:"La théorie de la relativité d'Einstein a remplacé Newton non parce qu'on a 'prouvé' qu'Einstein avait raison, mais parce qu'Einstein a fait des prédictions que Newton ne pouvait pas (courbure de la lumière) — et qu'elles ont été vérifiées."},
+    {name:"Kuhn", period:"XXe s.", badge:"non", thesis:"La science ne progresse pas de façon continue mais par révolutions. Quand un paradigme accumule trop d'anomalies, il est brutalement remplacé — pas amélioré.", quote:"La transition d'un paradigme à un autre, par voie de révolution, est le schéma habituel du développement de la science adulte.", work:"La Structure des révolutions scientifiques", example:"Le passage du géocentrisme (Ptolémée) à l'héliocentrisme (Copernic) n'est pas une 'amélioration' mais un changement total de vision du monde. On ne calculait plus pareil, on n'observait plus pareil — tout le cadre conceptuel changeait."},
+    {name:"Bachelard", period:"XXe s.", badge:"non", thesis:"Les faits scientifiques ne sont pas 'donnés' par la nature — ils sont construits par le scientifique avec ses théories et instruments. La science est une 'cité de problèmes'.", quote:"Rien ne va de soi. Rien n'est donné. Tout est construit.", work:"La Formation de l'esprit scientifique", example:"Un électron n'a pas été 'découvert' comme un trésor enfoui. Il a été 'construit' théoriquement par Thomson, puis vérifié expérimentalement. Sans la théorie préalable, personne n'aurait su quoi observer."},
+  ],
+  debates:[
+    {q:"La science progresse-t-elle par accumulation ou par révolution ?", oui:"Duhem : les révolutions sont des illusions. Derrière chaque grande rupture, il y a des milliers de petits progrès accumulés progressivement.", non:"Kuhn : non, il y a de vraies ruptures. La relativité ne 'prolonge' pas Newton — elle renverse sa vision de l'espace et du temps."},
+    {q:"Les vérités scientifiques sont-elles définitives ?", oui:"Si la méthode est rigoureuse et la vérification répétée, certaines vérités (E=mc², gravitation) semblent stables. La Terre tourne autour du Soleil — c'est acquis.", non:"Hume : on ne peut pas être certain que le soleil se lèvera demain. Kuhn : ce que nous tenons pour vrai aujourd'hui sera peut-être réfuté demain."},
+  ],
+  examples:[
+    {icon:"💉", title:"La crise des vaccins anti-COVID : science et défiance", cat:"Actualité", text:"En 2020-2021, des vaccins ont été développés en 10 mois contre des années habituellement. Certains ont refusé de se faire vacciner par méfiance. Ce clash illustre Popper : la science est falsifiable et provisoire — mais certains ont utilisé cela pour nier des preuves solides. La méfiance envers la science a des conséquences réelles (millions de morts évitables)."},
+    {icon:"🌌", title:"La matière noire : science ou métaphysique ?", cat:"Astrophysique", text:"95% de l'univers serait composé de 'matière noire' et 'd'énergie noire' — des entités que personne n'a jamais observées directement. Leur existence est postulée parce qu'elle explique les anomalies gravitationnelles. Pour Bachelard, c'est un 'fait construit'. Pour Popper, tant qu'on peut imaginer une réfutation, c'est de la science."},
+  ],
+  subjects:["La science peut-elle tout expliquer ?","L'objectivité scientifique est-elle possible ?","Toute vérité est-elle scientifique ?","La science transforme-t-elle notre rapport au monde ?","Le progrès scientifique est-il toujours un progrès humain ?"]
+},
+{
+  id:10, num:"11", title:"La Technique", emoji:"⚙️", tag:"Progrès & Humanité",
+  desc:"La technique nous libère-t-elle ou nous asservit-elle ? Peut-elle résoudre tous nos problèmes ?",
+  defs:[
+    {term:"Technique", def:"Savoir-faire pratique impliquant des règles, une habileté acquise et souvent l'usage d'instruments. La technique amplifie les capacités naturelles de l'homme."},
+    {term:"Homo faber", def:"'L'homme qui fabrique' (Bergson, Arendt). La capacité à créer des outils est la marque distinctive de l'humanité. Fabricare : faire, produire, transformer."},
+    {term:"Aliénation (Marx)", def:"L'ouvrier réduit à un geste mécanique répétitif devient étranger à lui-même, à son travail et au produit de son travail. La technique peut déshumaniser."},
+    {term:"Transhumanisme", def:"Mouvement philosophique qui vise à améliorer les capacités humaines par la technologie (augmentation cognitive, vie étendue, fusion homme-machine). Dépasse la question de Jonas."},
+    {term:"Principe de précaution", def:"Ne pas commercialiser une innovation dont on ne peut garantir l'innocuité. Application du principe de responsabilité de Jonas à la politique."},
+    {term:"Déterminisme technologique", def:"Idée (Ellul) que la technique a une logique propre qui s'impose aux sociétés, indépendamment de la volonté humaine. La technique crée ses propres impératifs."},
+  ],
+  philosophers:[
+    {name:"Bergson", period:"XIXe-XXe s.", badge:"oui", thesis:"L'homme est par nature un homo faber. La technique est ce qui le distingue et fait sa grandeur depuis les origines. Elle est l'expression de son intelligence créatrice.", quote:"À quelle date faisons-nous remonter l'apparition de l'homme sur terre ? Au temps où se fabriquèrent les premières armes, les premiers outils.", work:"L'Évolution créatrice", example:"Homo habilis fabriquait des outils il y a 2,5 millions d'années. Cette faculté de transformer la matière selon un projet est ce qui nous a permis de coloniser tous les environnements terrestres — et bientôt d'autres planètes."},
+    {name:"Marx", period:"XIXe s.", badge:"non", thesis:"La division technique du travail aliène l'ouvrier en réduisant son activité à un geste mécanique répétitif. L'homme intégré à la machine perd son humanité.", quote:"Le travail aliéné retourne le rapport : l'homme fait de son activité vitale, de son être, un simple moyen de son existence physique.", work:"Manuscrits de 1844", example:"L'usine de Foxconn à Shenzhen (Chine) fabrique 500 000 iPhones par jour. Des ouvriers vissent le même composant 3 000 fois par jour, 12h/jour. Des filets anti-suicide ont été installés. C'est l'aliénation marxiste en 2024."},
+    {name:"Hans Jonas", period:"XXe s.", badge:"non", thesis:"Notre puissance technologique dépasse notre sagesse éthique. Nous pouvons désormais nous autodétruire. La peur est légitime et doit guider une éthique de la précaution.", quote:"La promesse de la technique moderne s'est inversée en menace.", work:"Le Principe de responsabilité", example:"La bombe atomique : l'humanité possède depuis 1945 le moyen de s'autodétruire totalement. C'est la 'promesse inversée' de Jonas — la technique qui devait protéger l'homme est devenue la principale menace existentielle."},
+    {name:"Ellul", period:"XXe s.", badge:"non", thesis:"La technique a une logique propre qui s'impose à la société. Elle crée ses propres impératifs ('on peut le faire, donc on le fera') et ses effets néfastes sont inséparables de ses effets positifs.", quote:"Tout progrès technique se paie. Le progrès soulève plus de problèmes qu'il n'en résout.", work:"La Technique ou l'Enjeu du siècle", example:"Internet a connecté 5 milliards de personnes (bénéfice). Mais il a aussi créé la désinformation, la surveillance de masse, la dépendance aux écrans et les fake news (effets néfastes inséparables). Comme prévu par Ellul."},
+  ],
+  debates:[
+    {q:"La technique nous libère-t-elle ?", oui:"Descartes, Bergson : la technique nous libère des contraintes naturelles. L'avion nous libère de la distance, la médecine de la maladie, l'électricité de l'obscurité.", non:"Rousseau, Ellul : la technique crée de nouvelles dépendances. Un homme du XXIe siècle est incapable de survivre sans électricité, internet, médecins. Il est plus dépendant que jamais."},
+    {q:"La technique peut-elle résoudre tous nos problèmes ?", oui:"Dagognet : les problèmes créés par la technique seront résolus par plus de technique. La géo-ingénierie sauvera le climat. Le transhumanisme vaincra la mort.", non:"Jonas, Ellul : attendre que la technique se sauve elle-même, c'est l'illusion de l'apprenti sorcier. Chaque solution technique crée de nouveaux problèmes imprévus."},
+  ],
+  examples:[
+    {icon:"🤖", title:"ChatGPT et la destruction créatrice", cat:"Révolution numérique", text:"L'IA générative peut déjà rédiger des articles, des codes, des images. Des millions d'emplois de 'cols blancs' sont menacés (comptables, avocats, graphistes, journalistes). C'est la destruction créatrice schumpetérienne accélérée. Pour Marx, c'est une nouvelle forme d'aliénation. Pour Bergson, c'est l'homo faber qui crée son propre successeur."},
+    {icon:"🚀", title:"Elon Musk et le transhumanisme", cat:"Futur de l'humanité", text:"Neuralink implante des puces dans le cerveau humain. SpaceX vise la colonisation de Mars. Pour Hans Jonas, c'est exactement ce qu'il faudrait interdire — jouer avec notre nature sans en mesurer les conséquences. Pour le transhumanisme, c'est le destin de l'espèce. Pour Ellul, une fois la technologie disponible, la pression sociale pour l'utiliser sera irrésistible."},
+  ],
+  subjects:["La technique est-elle propre à l'homme ?","Faut-il avoir peur du progrès technique ?","La technique nous rend-elle plus humains ou moins humains ?","Peut-on parler d'un progrès technique ?","La technique résout-elle les problèmes qu'elle crée ?"]
+},
+{
+  id:11, num:"12", title:"Le Temps", emoji:"⏳", tag:"Existence & Durée",
+  desc:"Peut-on maîtriser le temps ? Faut-il vivre au présent, ou porter son passé ?",
+  defs:[
+    {term:"Temps objectif (Chronos)", def:"Le temps mesuré par les horloges. Uniforme, identique pour tous. 'Le temps est le nombre du mouvement selon l'avant et l'après' (Aristote)."},
+    {term:"Temps subjectif (Bergson)", def:"La durée vécue, hétérogène. 'Une heure n'est pas toujours une heure' : longue dans l'ennui, courte dans le plaisir. Le temps psychologique est incompressible."},
+    {term:"Kairos", def:"Le moment opportun, l'instant décisif à saisir. S'oppose au chronos (durée uniforme). Machiavel : le prince doit être prêt à saisir le kairos quand il se présente."},
+    {term:"Divertissement (Pascal)", def:"Au sens étymologique (divertere = détourner) : toute activité qui détourne l'homme de la pensée de sa mortalité. Le travail, les loisirs, les amours — tout peut être divertissement."},
+    {term:"Éternel retour (Nietzsche)", def:"Hypothèse cosmologique et éthique : et si chaque instant devait se répéter infiniment ? Aimerais-tu ta vie assez pour la revivre éternellement ? Critère du amor fati."},
+    {term:"Identité narrative (Ricoeur)", def:"Notre identité se construit dans le temps comme un récit : nous sélectionnons et unifions nos souvenirs pour en faire une histoire cohérente de qui nous sommes."},
+  ],
+  philosophers:[
+    {name:"Saint Augustin", period:"IVe-Ve s.", badge:"oui", thesis:"Le temps n'existe que dans l'esprit humain : le passé (souvenir), le présent (attention) et le futur (attente) sont des modes de la conscience. Objectivement, seul le présent existe.", quote:"Notre âme est tendue vers trois choses : le souvenir pour le passé, l'attention pour le présent, l'attente pour le futur.", work:"Confessions", example:"Quand on écoute une mélodie, on ne peut l'entendre que parce qu'on retient les notes passées et anticipe les suivantes. La musique n'existe que dans la conscience temporelle — illustration parfaite d'Augustin."},
+    {name:"Pascal", period:"XVIIe s.", badge:"non", thesis:"Les hommes fuient le présent par le divertissement pour échapper à la conscience de leur mortalité. Mais cette fuite est vaine — elle ne résout rien et gaspille le seul temps dont on dispose.", quote:"Nous errons dans les temps qui ne sont pas nôtres et ne pensons point au seul qui nous appartient.", work:"Pensées", example:"Scroll TikTok à 2h du matin, regarder Netflix en binge-watching, travailler 80h/semaine pour 'ne pas penser' : c'est le divertissement pascalien contemporain. On fuit le face-à-face avec soi-même."},
+    {name:"Nietzsche", period:"XIXe s.", badge:"oui", thesis:"L'oubli est une fonction vitale, pas un défaut. Pour avancer, il faut savoir oublier les souffrances passées. Le passé ne doit pas nous alourdir.", quote:"Celui qui ne sait pas se reposer sur le seuil du moment, oubliant tout le passé, ne saura jamais ce que c'est que le bonheur.", work:"Seconde considération inactuelle", example:"Des études en psychologie du deuil montrent que les personnes qui 'font le deuil' — qui intègrent et finissent par accepter la perte — s'en remettent mieux que celles qui ressassent indéfiniment. La rumination pathologique confirme Nietzsche."},
+    {name:"Sénèque", period:"Ier s. ap. J.-C.", badge:"oui", thesis:"Ce n'est pas que la vie soit courte — c'est qu'on la gaspille. Ceux qui utilisent consciemment leur temps ont une vie longue. La sagesse, c'est posséder son temps.", quote:"Nous n'avons point reçu une vie brève, nous l'avons faite telle.", work:"De la brièveté de la vie", example:"Steve Jobs, à 25 ans, demandait chaque matin : 'Si aujourd'hui était le dernier jour de ma vie, est-ce que je voudrais faire ce que je m'apprête à faire ?' C'est la sagesse sénéquienne appliquée : utiliser consciemment chaque instant."},
+  ],
+  debates:[
+    {q:"Faut-il vivre au présent ?", oui:"Marc-Aurèle, Épictète, bouddhisme : le présent est le seul temps sur lequel nous avons prise. Passé et futur sont hors de notre contrôle. La pleine conscience (mindfulness) est une traduction contemporaine.", non:"Pascal : le présent seul est trop lourd à habiter. Et Hegel : le présent n'a de sens que porté par un passé et orienté vers un futur."},
+    {q:"Peut-on échapper au temps ?", oui:"Pascal : les hommes y réussissent, hélas — par le divertissement. Mais c'est une fausse sortie.", non:"Aristote : nous sommes des êtres naturels, soumis à la croissance et au déclin. On peut ralentir le temps subjectivement, pas l'arrêter."},
+  ],
+  examples:[
+    {icon:"⌛", title:"La relativité du temps (Einstein)", cat:"Physique & philosophie", text:"La relativité restreinte d'Einstein prouve que le temps s'écoule différemment selon la vitesse : une horloge dans un avion retarde légèrement par rapport à une horloge au sol (effet mesuré). Le 'temps objectif' d'Aristote est lui-même relatif au référentiel. Augustin avait raison : le temps n'est pas une réalité absolue extérieure à l'observateur."},
+    {icon:"📱", title:"L'économie de l'attention et le temps volé", cat:"Contemporain", text:"Les algorithmes de TikTok, Instagram et YouTube sont conçus pour capturer notre attention le plus longtemps possible. Un Américain passe en moyenne 7h par jour sur des écrans. C'est le divertissement pascalien industrialisé et monétisé. Sénèque demanderait : est-ce que tu possèdes ton temps, ou est-ce qu'il te possède ?"},
+  ],
+  subjects:["Le temps est-il notre maître ou notre oeuvre ?","Peut-on se libérer du passé ?","Vaut-il mieux vivre au présent ?","La mort donne-t-elle un sens à la vie ?","Prendre son temps, est-ce le perdre ?"]
+},
+{
+  id:12, num:"13", title:"La Vérité", emoji:"🔍", tag:"Épistémologie",
+  desc:"La vérité est-elle relative ? A-t-on le devoir de dire la vérité ?",
+  defs:[
+    {term:"Vérité-correspondance", def:"Un énoncé est vrai s'il correspond à la réalité : 'Il pleut' est vrai si et seulement s'il pleut. Définition classique (Aristote, Tarski)."},
+    {term:"Vérité-cohérence", def:"Un énoncé est vrai s'il est logiquement compatible avec l'ensemble des autres propositions du système. Valide pour les mathématiques et la logique."},
+    {term:"Relativisme (Protagoras)", def:"La vérité dépend du sujet ou de la culture. 'L'homme est la mesure de toute chose.' Il n'y a pas de vérité absolue — seulement des perspectives."},
+    {term:"Doute méthodique", def:"Méthode de Descartes : douter de tout ce qui peut être mis en doute pour trouver une vérité indubitable. Aboutit au cogito : 'Je pense, donc je suis.'"},
+    {term:"Vérité pragmatique (James)", def:"Est vrai ce qui est utile, ce qui 'marche'. Une croyance est vraie si elle permet d'agir efficacement dans le monde."},
+    {term:"Post-vérité", def:"Contexte contemporain où les faits objectifs ont moins d'influence que les appels aux émotions et croyances personnelles sur l'opinion publique."},
+  ],
+  philosophers:[
+    {name:"Platon", period:"IVe s. av. J.-C.", badge:"oui", thesis:"Il existe des vérités absolues accessibles par la raison et les sciences. La vérité est objective et universelle — elle ne dépend pas de nos perceptions subjectives.", quote:"Le sage est celui qui sort de la caverne et voit le soleil — la vérité — quitte à souffrir de sa lumière.", work:"La République (allégorie de la caverne)", example:"2+2=4 est vrai en France, en Chine et sur Mars. La vérité mathématique est absolue et universelle — elle démontre que le relativisme de Protagoras est faux."},
+    {name:"Protagoras", period:"Ve s. av. J.-C.", badge:"non", thesis:"La vérité est relative à chaque individu. Nos perceptions diffèrent donc nos vérités diffèrent. Il n'y a pas de vérité absolue extérieure aux sujets percevants.", quote:"L'homme est la mesure de toute chose : des choses qui sont, qu'elles sont ; des choses qui ne sont pas, qu'elles ne sont pas.", work:"Fragments", example:"Est-ce qu'une salle est chaude ou froide ? Un Finlandais et un Sénégalais ne percevront pas la même chose. Leurs 'vérités' sont toutes les deux vraies. Protagoras : il n'y a pas de réponse 'vraie' indépendante du percevant."},
+    {name:"Nietzsche", period:"XIXe s.", badge:"non", thesis:"La vérité est une construction humaine utile à la survie de l'espèce. L'illusion peut valoir mieux que la vérité si elle aide à vivre. Le mensonge vital est parfois nécessaire.", quote:"Il serait possible que la véritable nature des choses fût tellement nuisible que l'apparence fût nécessaire afin de pouvoir vivre.", work:"La Volonté de puissance", example:"La croyance en un sens de la vie (religion, idéologie, amour) peut être une 'illusion vitale' — non vraie au sens scientifique mais nécessaire à l'action. Pour Nietzsche, le nihilisme (la 'vraie' vérité que tout est vide) est paralysant."},
+    {name:"Kant", period:"XVIIIe s.", badge:"oui", thesis:"Il est toujours immoral de mentir, même pour sauver une vie. La vérité est un devoir universel. Le mensonge détruit le tissu de confiance qui rend la communication possible.", quote:"Agis de telle sorte que tu puisses vouloir que ta maxime devienne une loi universelle.", work:"Fondements de la métaphysique des moeurs", example:"Doit-on dire à un malade en phase terminale la vérité sur son état ? Pour Kant, oui. Pour Bentham, cela dépend des conséquences (la vérité peut-elle encore l'aider à bien mourir ?). Ce dilemme réel divise encore les médecins et éthiciens."},
+  ],
+  debates:[
+    {q:"'À chacun sa vérité' ?", oui:"Protagoras, Nietzsche : nos perceptions et nos besoins diffèrent. La vérité absolue est une illusion. La 'vérité' est toujours une perspective.", non:"Platon, Descartes : il existe des vérités objectives (mathématiques, logiques) qui ne dépendent pas de nos perceptions. Le relativisme radical se contredit lui-même."},
+    {q:"Faut-il toujours dire la vérité ?", oui:"Kant : le mensonge ne peut jamais être universalisé. S'il est permis de mentir dans certains cas, la confiance sociale s'effondre.", non:"Benjamin Constant, Nietzsche : on ne doit la vérité qu'à ceux qui y ont droit. Et parfois, l'illusion est plus humaine que la vérité cruelle."},
+  ],
+  examples:[
+    {icon:"📰", title:"Les fake news et la crise de vérité", cat:"Contemporain", text:"En 2016, Oxford Dictionaries a élu 'post-truth' mot de l'année. Les fake news se propagent 6x plus vite que les vraies informations (étude MIT, 2018). Pour Platon, c'est la Caverne 2.0 : les gens préfèrent les ombres rassurantes à la lumière dérangeante. Pour Protagoras : si quelqu'un croit à une fake news, c'est sa vérité — qui a tort ?"},
+    {icon:"🔬", title:"La vérité scientifique et le changement climatique", cat:"Science & politique", text:"97% des climatologues s'accordent sur le changement climatique anthropique. Pourtant, 40% des Américains le nient. Cette dissociation entre vérité scientifique et croyance populaire pose la question de Bachelard : les faits sont construits, et des intérêts (pétroliers, idéologiques) peuvent 'déconstruire' des faits pourtant solides."},
+  ],
+  subjects:["La vérité peut-elle être dangereuse ?","Peut-on vivre sans illusions ?","Toute vérité est-elle bonne à dire ?","La vérité est-elle relative ?","Faut-il toujours rechercher la vérité ?"]
+},
+{
+  id:13, num:"14", title:"Le Langage", emoji:"💬", tag:"Communication & Sens",
+  desc:"Le langage crée-t-il la pensée ou la traduit-il simplement ? Peut-on tout dire ?",
+  defs:[
+    {term:"Signe (Saussure)", def:"Unité du langage composée d'un signifiant (image acoustique, le son) et d'un signifié (concept, l'idée). Le lien est arbitraire — il n'y a aucune raison naturelle pour que 'arbre' désigne un arbre."},
+    {term:"Langue vs Parole", def:"Saussure distingue la langue (système collectif et social) de la parole (usage individuel et ponctuel). Je parle en utilisant la langue que je n'ai pas créée."},
+    {term:"Logos", def:"En grec : raison ET discours. L'homme est l'animal qui possède le logos (Aristote) — capable d'argumenter sur le juste, l'injuste, le bien, le mal."},
+    {term:"Performatif (Austin)", def:"Énoncé qui accomplit une action en le disant. 'Je vous déclare mariés' ne décrit pas un mariage — il le crée. La parole peut changer la réalité."},
+    {term:"Wittgenstein", def:"'Les limites de mon langage sont les limites de mon monde.' Ce qu'on ne peut pas dire clairement, on devrait le taire (premier Wittgenstein). Plus tard : le langage est usage."},
+    {term:"Ineffable", def:"Ce qui ne peut pas être dit, mis en mots. L'expérience mystique, l'indicible douleur, la beauté d'un coucher de soleil. Bergson : le langage appauvrira toujours nos ressentis singuliers."},
+  ],
+  philosophers:[
+    {name:"Aristote", period:"IVe s. av. J.-C.", badge:"oui", thesis:"L'homme est un animal politique parce qu'il possède le logos. Le langage est la condition de la vie politique et morale : il permet de délibérer sur le juste et l'injuste.", quote:"L'homme est par nature un animal politique.", work:"La Politique", example:"L'Assemblée nationale, le Parlement européen, les Nations Unies : ce sont des institutions fondées entièrement sur le logos — la conviction que la parole peut résoudre les conflits mieux que la force."},
+    {name:"Hegel", period:"XVIIIe-XIXe s.", badge:"oui", thesis:"Il n'y a pas de pensée sans mot. C'est le mot qui clarifie la pensée. Une pensée qui ne trouve pas ses mots n'est pas encore clairement formée.", quote:"C'est dans les mots que nous pensons. Nous n'avons conscience de nos pensées déterminées et réelles que lorsque nous leur donnons la forme objective.", work:"Philosophie de l'esprit", example:"Essaie de penser 'justice' sans utiliser le mot 'justice' ni aucun synonyme. C'est difficile. Le concept ne peut être pensé clairement qu'à travers son expression linguistique — confirmant Hegel."},
+    {name:"Bergson", period:"XIXe-XXe s.", badge:"non", thesis:"Le langage appauvrit notre pensée en enfermant nos ressentis singuliers dans des mots généraux. 'Amour', 'colère', 'joie' ne capturent jamais la singularité de notre émotion réelle.", quote:"Nous ne voyons pas les choses mêmes ; nous nous bornons, le plus souvent, à lire des étiquettes collées sur elles.", work:"Le Rire", example:"Quand on dit 'Je suis triste', le mot 'triste' recouvre une infinité d'états différents. La tristesse d'un deuil n'est pas la tristesse d'une journée grise. Bergson : le langage généralise ce qui est singulier."},
+    {name:"Freud", period:"XIXe-XXe s.", badge:"oui", thesis:"Parler peut guérir. La cure psychanalytique ('talking cure') consiste à faire parler le patient pour libérer les représentations refoulées dans l'inconscient.", quote:"La parole a une action thérapeutique sur l'esprit humain.", work:"Études sur l'hystérie", example:"Une patiente souffrant de vomissements inexpliqués trouve, en parlant, un souvenir refoulé d'une situation humiliante à table. Les vomissements disparaissent. La parole libère l'inconscient — et guérit le corps."},
+  ],
+  debates:[
+    {q:"Peut-on penser sans langage ?", oui:"Locke : la pensée préexiste au langage, qui n'est qu'un vêtement pour la communiquer. Je pense, puis je cherche les mots.", non:"Hegel, Wittgenstein : 'Les limites de mon langage sont les limites de mon monde.' Sans mots pour le dire, la pensée reste confuse et informulée."},
+    {q:"Peut-on tout dire ?", oui:"Hegel : tout ce qui est clairement pensé peut être dit. Si on ne trouve pas les mots, c'est que la pensée est encore brouillonne.", non:"Bergson, les mystiques : certaines expériences (la grâce, la douleur extrême, le beau) débordent tout langage possible. L'indicible existe."},
+  ],
+  examples:[
+    {icon:"🌐", title:"La Novlangue d'Orwell (1984)", cat:"Littérature & politique", text:"Dans 1984, le Parti contrôle la pensée en réduisant le vocabulaire (novlangue). Si le mot 'rébellion' n'existe plus, peut-on encore penser à se rebeller ? Orwell illustre Hegel et Wittgenstein à l'extrême : supprimer les mots, c'est supprimer les pensées. La censure du langage est une censure de la pensée."},
+    {icon:"🧠", title:"Les aphasiques : pensée sans langage", cat:"Neurologie", text:"Des patients aphasiques (incapables de parler après un AVC) montrent parfois une pensée préservée — ils jouent aux échecs, reconnaissent des visages, résolvent des problèmes spatiaux. Pour eux, Locke aurait raison : la pensée non-verbale existe. Mais ils ont d'immenses difficultés à 'penser' des concepts abstraits comme la justice ou la liberté."},
+    {icon:"🗣️", title:"Les langues qui façonnent la pensée", cat:"Linguistique cognitives", text:"La tribu amazonienne Pirahã (langue sans passé ni futur grammatical) ne peut pas raconter d'histoires sur des événements non vécus. La langue Hopi décrit le temps différemment de l'anglais ou du français. L'hypothèse Sapir-Whorf : la structure de notre langue influence notre façon de percevoir le temps, la causalité et les couleurs."},
+  ],
+  subjects:["Le langage est-il un obstacle à la communication ?","Peut-on penser sans parler ?","Les mots ont-ils du pouvoir ?","Le langage nous trahit-il ?","Peut-on tout exprimer par le langage ?"]
+},
+{
+  id:14, num:"15", title:"Le Travail", emoji:"🔨", tag:"Société & Valeur",
+  desc:"Le travail nous humanise-t-il ou nous aliène-t-il ? Sommes-nous condamnés à travailler ?",
+  defs:[
+    {term:"Travail", def:"Activité humaine productive qui transforme la nature pour satisfaire des besoins. Il est distingué du jeu par sa finalité extérieure et les efforts qu'il exige."},
+    {term:"Aliénation (Marx)", def:"État dans lequel l'ouvrier devient étranger à lui-même, à son travail et au produit de son travail. La division excessive des tâches produit l'aliénation."},
+    {term:"Animal laborans / Homo faber", def:"Distinction d'Arendt : l'animal laborans travaille pour survivre (production consommable). L'homo faber oeuvre et crée des objets durables (oeuvres)."},
+    {term:"Loisir (Skholé)", def:"Pour les Grecs : temps disponible pour les activités proprement humaines (philosophie, politique, contemplation). Non pas oisiveté, mais activité libre."},
+    {term:"Division du travail (Smith)", def:"Spécialisation des tâches qui augmente la productivité (une épingle produite par 18 ouvriers spécialisés vs 1 ouvrier généraliste). Mais déshumanise selon Marx."},
+    {term:"Travail immatériel", def:"Travail de service, de soin, de création, de gestion de l'information. Représente 80% des emplois dans les pays développés — remet en question les catégories marxistes."},
+  ],
+  philosophers:[
+    {name:"Hegel", period:"XVIIIe-XIXe s.", badge:"oui", thesis:"Le travail nous humanise en nous faisant prendre conscience de nous-mêmes à travers nos oeuvres. Il développe nos capacités et nous rend indépendants. C'est un vecteur d'émancipation.", quote:"C'est par le travail que l'esclave se libère : en transformant le monde, il se transforme lui-même.", work:"Phénoménologie de l'Esprit (la dialectique du maître et de l'esclave)", example:"La dialectique du maître et de l'esclave de Hegel : le maître, ne travaillant pas, s'abêtit. L'esclave, qui travaille, développe ses capacités et prend conscience de sa puissance. Le travail libère paradoxalement l'esclave."},
+    {name:"Marx", period:"XIXe s.", badge:"non", thesis:"Le travail aliéné — quand l'ouvrier est dépossédé du produit de son travail, de son activité et de son humanité — est une condamnation. L'homme travaille mais ne se reconnaît pas dans son travail.", quote:"Plus l'ouvrier se dépense dans son travail, plus le monde étranger, objectif, qu'il crée en face de lui devient puissant.", work:"Manuscrits économico-philosophiques de 1844", example:"L'ouvrier de la chaîne Ford (1913) : il visse le même boulon 10 000 fois par jour. Il ne voit jamais la voiture terminée. Le produit de son travail lui est étranger — il lui appartient moins que la voiture appartient à l'acheteur."},
+    {name:"Arendt", period:"XXe s.", badge:"oui", thesis:"Il faut distinguer travail (animal laborans, activité biologique de survie) et oeuvre (homo faber, production d'objets durables qui laissent une trace dans le monde).", quote:"Le travail ne laisse rien derrière lui. L'oeuvre, si.", work:"Condition de l'homme moderne", example:"Un cuisinier qui prépare un repas qui sera mangé = animal laborans (le travail disparaît avec sa consommation). Un ébéniste qui fabrique une table transmissible sur 3 générations = homo faber (l'oeuvre dure)."},
+    {name:"Nietzsche", period:"XIXe s.", badge:"non", thesis:"L'éloge du travail sert à contrôler les hommes. En les épuisant, on s'assure qu'ils n'ont plus d'énergie pour penser, se révolter ou s'individuer. Le travail est 'la meilleure des polices'.", quote:"Au fond, on sent aujourd'hui que le travail constitue la meilleure des polices — il tient chacun en bride.", work:"Aurore", example:"'Hustle culture' contemporaine : influenceurs qui glorifient le fait de travailler 80h/semaine. Pour Nietzsche, c'est exactement le discours que les dominants veulent que les dominés intériorisent."},
+  ],
+  debates:[
+    {q:"Le travail nous épanouit-il ?", oui:"Hegel, Kant : le travail développe nos facultés, nous rend indépendants et nous donne une conscience de notre valeur. Un travail bien fait procure une fierté légitime.", non:"Marx, Nietzsche : le travail aliéné dégrade. Et même un travail non aliéné absorbe une énergie qui pourrait aller vers la contemplation, l'amitié, la création libre."},
+    {q:"Les animaux travaillent-ils ?", oui:"Arendt : les animaux 'travaillent' au sens de l'animal laborans — ils produisent pour survivre (l'abeille fait du miel, le castor construit). C'est une activité biologique partagée.", non:"Marx : le travail humain est précédé d'une représentation mentale. 'L'architecte a construit la cellule dans sa tête avant de la construire dans la ruche.'"},
+  ],
+  examples:[
+    {icon:"🤖", title:"L'automatisation et la fin du travail ?", cat:"Futur du travail", text:"Les experts prévoient que 85 millions d'emplois seront automatisés d'ici 2025 (Forum économique mondial). Le 'revenu universel de base' est débattu dans 40 pays. Si les machines travaillent à notre place, serons-nous libérés (Aristote : skholé pour tous) ou aliénés sans utilité sociale (Marx : le travail donne dignité) ?"},
+    {icon:"🛠️", title:"Le 'quiet quitting' : refus du travail comme identité", cat:"Contemporain", text:"Depuis 2022, le 'quiet quitting' (faire le strict minimum au travail) est un phénomène mondial, surtout chez les Gen Z. Pour Marx, c'est une résistance à l'aliénation. Pour Nietzsche, les jeunes refusent que le travail soit leur police intérieure. Pour Hegel, c'est renoncer à une source d'émancipation."},
+  ],
+  subjects:["Travailler, est-ce un devoir ?","Le travail rend-il l'homme meilleur ?","Peut-on opposer travail et loisir ?","Le travail est-il une valeur ?","Peut-on vivre sans travailler ?"]
+},
+{
+  id:15, num:"16", title:"L'État", emoji:"🏛️", tag:"Politique & Pouvoir",
+  desc:"L'État est-il nécessaire ? Peut-on lui désobéir ? Jusqu'où doit-il intervenir ?",
+  defs:[
+    {term:"État", def:"Ensemble des institutions (administratives, juridiques, militaires, policières) qui organisent une société et détiennent le pouvoir sur un territoire donné."},
+    {term:"Contrat social", def:"Hypothèse philosophique (Locke, Rousseau, Hobbes) : les hommes ont renoncé à une partie de leur liberté naturelle pour obtenir les garanties d'un État de droit."},
+    {term:"Souveraineté", def:"Pouvoir suprême et indépendant d'un État sur son territoire. Chez Rousseau : la souveraineté appartient au peuple (volonté générale). Chez Hobbes : au Léviathan."},
+    {term:"État minimal (Nozick)", def:"Libertarisme : l'État doit se limiter à protéger la vie, la liberté et la propriété. Toute redistribution fiscale est une violation de la propriété individuelle."},
+    {term:"Monopole de violence (Weber)", def:"L'État est la seule institution qui dispose du droit d'user légitimement de la force physique sur un territoire donné. C'est la définition sociologique de l'État."},
+    {term:"État Providence", def:"État qui garantit à ses citoyens une protection sociale (santé, retraite, chômage, éducation). Antagoniste de l'État minimal libertarien."},
+  ],
+  philosophers:[
+    {name:"Hobbes", period:"XVIIe s.", badge:"oui", thesis:"Sans État, c'est 'la guerre de chacun contre chacun'. L'homme à l'état de nature est guidé par la peur et la compétition. L'État est la seule garantie de paix.", quote:"La vie de l'homme à l'état de nature est solitaire, misérable, dangereuse, animale et brève.", work:"Léviathan", example:"La Somalie depuis 1991 (État failli) : sans gouvernement central stable, des décennies de violence entre clans, de famine et de piraterie. C'est l'état de nature hobbésien réalisé en direct."},
+    {name:"Rousseau", period:"XVIIIe s.", badge:"oui", thesis:"Le contrat social légitime l'État en faisant de la volonté générale la source des lois. L'État n'opprime pas — il moralise l'homme en le faisant passer de l'instinct à la citoyenneté.", quote:"Il faut bénir l'instant heureux qui arracha l'homme de l'état de nature et, d'un animal stupide et borné, fit un être intelligent et un homme.", work:"Du Contrat social", example:"La Révolution française de 1789 : un peuple qui renverse son souverain absolu pour se donner lui-même ses lois. C'est la volonté générale rousseauiste en action. 'La loi est l'expression de la volonté générale.'"},
+    {name:"Tocqueville", period:"XIXe s.", badge:"non", thesis:"La démocratie peut engendrer un 'despotisme doux' : un État qui, profitant du désintérêt civique, étend son administration à tous les domaines et finit par étouffer la liberté individuelle.", quote:"Le naturel du pouvoir absolu, dans les siècles démocratiques, n'est ni cruel ni sauvage, mais il est minutieux et tracassier.", work:"De la démocratie en Amérique", example:"'Big Data' et surveillance : en Chine, le 'système de crédit social' note les comportements des citoyens. En démocratie, les GAFA et les États collectent aussi nos données. C'est le despotisme doux tocquevillien — non par la force, mais par l'information."},
+    {name:"Thoreau", period:"XIXe s.", badge:"non", thesis:"'Le meilleur gouvernement est celui qui gouverne le moins.' La conscience morale individuelle prime sur la loi de l'État. La désobéissance civile est un droit et parfois un devoir.", quote:"La seule obligation que j'ai le droit d'adopter, c'est d'agir à tout moment selon ce qui me paraît juste.", work:"La désobéissance civile", example:"Martin Luther King s'est directement inspiré de Thoreau (qu'il avait lu à 15 ans) pour organiser les boycotts et marches pacifiques. Gandhi aussi. La désobéissance civile est devenue une méthode politique universelle."},
+  ],
+  debates:[
+    {q:"L'État est-il nécessaire ?", oui:"Hobbes : sans État, guerre de tous contre tous. L'État est la condition de la paix et de toute vie sociale.", non:"Bakounine, anarchisme : l'État corrompt ceux qui le dirigent. Même la dictature du prolétariat de Marx se transformera en dictature tout court."},
+    {q:"Jusqu'où l'État doit-il intervenir ?", oui:"Rawls, État providence : l'État doit corriger les inégalités et garantir à chacun l'égalité des chances.", non:"Nozick, libertarisme : l'État ne doit faire que protéger la vie, la liberté et la propriété. Toute redistribution est du vol."},
+  ],
+  examples:[
+    {icon:"🗳️", title:"Le référendum Brexit et la volonté générale", cat:"Politique contemporaine", text:"En 2016, 52% des Britanniques ont voté pour quitter l'UE. Est-ce la 'volonté générale' de Rousseau ? Platon aurait dit non : les gens ont été manipulés et n'étaient pas compétents. Rousseau aurait répondu que la volonté générale ne peut pas se tromper — mais que le peuple peut être trompé sur ce qu'il veut vraiment."},
+    {icon:"🌍", title:"ONU : un État mondial est-il possible ?", cat:"Relations internationales", text:"L'ONU essaie de créer une forme de gouvernance mondiale sans État mondial. Hobbes dirait : sans Léviathan mondial, les États sont entre eux à l'état de nature (guerres, armements). L'ONU est une tentative de contrat social international — mais sans souveraineté ni force de coercition réelle."},
+  ],
+  subjects:["L'État doit-il être fort ou limité ?","La désobéissance civile est-elle justifiée ?","Peut-il y avoir une société sans État ?","L'obéissance à l'État est-elle un devoir ?","L'État est-il au service des citoyens ?"]
+},
+{
+  id:16, num:"17", title:"Le Bonheur", emoji:"☀️", tag:"Éthique & Bien vivre",
+  desc:"Peut-on atteindre le bonheur ? Le désir est-il un obstacle ou une condition du bonheur ?",
+  defs:[
+    {term:"Eudémonie (Aristote)", def:"Bonheur comme 'vie bonne' — activité de l'âme dirigée par la vertu. Le bonheur n'est pas un état passif mais une activité, un accomplissement de notre nature rationnelle."},
+    {term:"Ataraxie (Épicure)", def:"Absence de trouble de l'âme. Pour Épicure, le bonheur est la suppression de la douleur (physique) et de l'inquiétude (mentale), non la multiplication des plaisirs."},
+    {term:"Aponie", def:"Absence de douleur corporelle (Épicure). Avec l'ataraxie, c'est la condition du bonheur épicurien. Santé du corps + tranquillité de l'âme = bonheur."},
+    {term:"Divertissement (Pascal)", def:"Fuite du face-à-face avec soi-même et avec la conscience de la mort. Les hommes sont malheureux parce qu'ils cherchent le bonheur dans la distraction plutôt que dans Dieu."},
+    {term:"Bonheur imaginaire (Kant)", def:"Le bonheur est une idée de l'imagination (vague, imprécise) et non de la raison (claire, méthodique). C'est pourquoi il est si difficile à atteindre : on ne sait pas exactement ce qu'on veut."},
+    {term:"Paradoxe hédonique", def:"Plus on cherche directement le bonheur, moins on le trouve. Le bonheur s'obtient indirectement, comme effet secondaire d'une vie pleine de sens (Mill, Frankl)."},
+  ],
+  philosophers:[
+    {name:"Épicure", period:"IIIe s. av. J.-C.", badge:"oui", thesis:"Le bonheur est accessible : c'est l'ataraxie (tranquillité de l'âme) et l'aponie (absence de douleur physique). Il suffit de distinguer les désirs naturels-nécessaires (faciles à satisfaire) des désirs vains (sources de tourment).", quote:"La santé du corps, la tranquillité de l'âme sont la perfection de la vie heureuse.", work:"Lettre à Ménécée", example:"Un repas simple avec de bons amis → désir naturel et nécessaire → satisfaction facile → bonheur. Un yacht, une villa, la célébrité → désirs vains → jamais totalement satisfaits → insatisfaction perpétuelle. Épicure choisissait le repas simple."},
+    {name:"Kant", period:"XVIIIe s.", badge:"non", thesis:"Le bonheur est une idée vague de l'imagination : nous ne savons pas clairement ce qui nous rendrait heureux. Et la morale interdit d'en faire notre fin principale.", quote:"Le bonheur est un idéal, non de la raison, mais de l'imagination.", work:"Fondements de la métaphysique des moeurs", example:"Quelqu'un qui pensait que 'si seulement j'avais cette voiture, je serais heureux' l'obtient — et se retrouve aussi insatisfait qu'avant, déjà désirant autre chose. L'imagination romantise ce qu'on n'a pas."},
+    {name:"Schopenhauer", period:"XIXe s.", badge:"non", thesis:"Le bonheur est impossible : le désir implique un manque (souffrance), et sa satisfaction amène l'ennui. La vie oscille entre souffrance et ennui comme un pendule.", quote:"La vie oscille, comme un pendule, de droite à gauche, de la souffrance à l'ennui.", work:"Le Monde comme Volonté et comme Représentation", example:"Les études sur les gagnants du loto montrent qu'ils retrouvent leur niveau de bonheur de départ après 6 mois à 1 an. La satisfaction d'un désir n'apporte qu'un bonheur éphémère — confirmant Schopenhauer."},
+    {name:"Épictète", period:"Ier s. ap. J.-C.", badge:"oui", thesis:"Le bonheur dépend de nous car ce qui nous affecte n'est pas les événements mais le jugement que nous portons sur eux. Changer nos représentations, c'est changer notre bonheur.", quote:"Ce qui trouble les hommes, ce ne sont pas les choses, ce sont les jugements qu'ils portent sur les choses.", work:"Manuel", example:"Viktor Frankl, psychiatre juif survivant d'Auschwitz, a maintenu un sens à sa vie dans des conditions d'horreur absolue (il cherchait à savoir si sa femme avait survécu). Cette trouvaille d'un sens lui a permis de survivre — confirmant Épictète : c'est notre rapport aux événements, pas les événements eux-mêmes, qui détermine notre état."},
+  ],
+  debates:[
+    {q:"Le bonheur est-il accessible ?", oui:"Épicure : oui, par la sagesse. Épictète : oui, par le contrôle de nos représentations. Le bonheur ne vient pas du hasard mais de la discipline intérieure.", non:"Kant : le bonheur est une idée vague. Schopenhauer : le désir rend le bonheur structurellement impossible. Le bonheur est une illusion confortable."},
+    {q:"Le désir est-il un obstacle au bonheur ?", oui:"Épicure, Schopenhauer : le désir implique un manque donc une souffrance. Et sa satisfaction ne dure pas. Réduire ses désirs = réduire sa souffrance.", non:"Rousseau : le bonheur est dans le désir lui-même, dans l'anticipation. 'Malheur à qui n'a plus rien à désirer.'"},
+  ],
+  examples:[
+    {icon:"🧠", title:"La psychologie positive et le bonheur", cat:"Psychologie contemporaine", text:"Martin Seligman (fondateur de la psychologie positive) a identifié 5 piliers du bonheur (modèle PERMA) : Émotions positives, Engagement, Relations, Sens, Accomplissement. Ces piliers confirment Épicure (relations) et Aristote (accomplissement / eudémonie) plutôt que les hédonistes. Le bonheur comme activité, pas comme état."},
+    {icon:"🌍", title:"Le Bhoutan et le Bonheur National Brut", cat:"Économie & politique", text:"Le Bhoutan mesure son développement non par le PIB mais par le 'Bonheur National Brut' (BNB). L'indice inclut la culture, l'environnement, la gouvernance et le bien-être. C'est la critique aristotélicienne du matérialisme appliquée à la politique économique : le bonheur réel dépasse les revenus."},
+    {icon:"⚗️", title:"Les drogues et le bonheur chimique", cat:"Éthique & neurosciences", text:"Si une drogue pouvait induire un bonheur parfait et continu, devrait-on la prendre ? (Machine à expériences de Nozick). La plupart des gens disent non — parce qu'ils veulent un bonheur réel, pas une simulation. Aristote aurait dit : le bonheur chimique n'est pas l'eudémonie. Épicure aussi : le plaisir doit être naturel, pas artificiel."},
+  ],
+  subjects:["Le bonheur est-il le but de la vie ?","Peut-on être heureux sans le savoir ?","Le désir rend-il malheureux ?","La conscience est-elle un obstacle au bonheur ?","Suffit-il de désirer pour être heureux ?"]
+}
+];
+
+// ════════════════════════════════════════════════════════
+// FLASHCARDS DATA
+// ════════════════════════════════════════════════════════
+function generateFlashcards() {
+  const cards = [];
+  NOTIONS.forEach(n => {
+    // Définitions
+    n.defs.forEach(d => {
+      cards.push({ notion: n.title, id: n.id, type: 'def', q: `Qu'est-ce que : ${d.term} ?`, a: d.def, author: '' });
+    });
+    // Citations
+    n.philosophers.forEach(p => {
+      cards.push({ notion: n.title, id: n.id, type: 'citation', q: `Citation de ${p.name} dans "${p.work}" ?`, a: `"${p.quote}"`, author: `${p.name} — ${p.work}` });
+      cards.push({ notion: n.title, id: n.id, type: 'thesis', q: `Quelle est la thèse de ${p.name} sur ${n.title.toLowerCase()} ?`, a: p.thesis, author: p.name });
+    });
+    // Débats
+    n.debates.forEach(d => {
+      cards.push({ notion: n.title, id: n.id, type: 'debate', q: d.q, a: `OUI : ${d.oui}\n\nNON : ${d.non}`, author: '' });
+    });
+  });
+  return cards;
+}
+
+// ════════════════════════════════════════════════════════
+// QUIZ DATA
+// ════════════════════════════════════════════════════════
+const QUIZ_DATA = [
+  {notion:"L'Art", q:"Pour Nietzsche, d'où vient le talent artistique ?", opts:["D'un don naturel inné","D'un travail acharné et invisible","De l'inspiration divine","Du hasard"], correct:1, expl:"Nietzsche s'oppose à Kant : parler de 'génie inné', c'est de la vanité. Les grands artistes sont de grands travailleurs. Voir Humain, trop humain."},
+  {notion:"L'Art", q:"Quelle est la thèse de Platon sur l'art dans La République ?", opts:["L'art révèle la vérité","L'art est inutile mais beau","Les artistes doivent être chassés de la cité","L'art éduque les citoyens"], correct:2, expl:"Pour Platon, l'artiste produit des copies de copies qui éloignent les hommes de la vérité (les Idées). Il maintient les hommes dans la caverne."},
+  {notion:"La Conscience", q:"Que signifie le cogito de Descartes ?", opts:["Je crois, donc je suis","Je pense, donc je suis","Je doute, donc je n'existe pas","Je ressens, donc je vis"], correct:1, expl:"'Cogito ergo sum' : même en doutant de tout, le fait que je doute prouve que je pense, donc que j'existe. C'est la première certitude absolue."},
+  {notion:"La Conscience", q:"Pour Freud, le moi est-il maître de lui-même ?", opts:["Oui, pleinement","Non, l'inconscient le détermine à son insu","Oui, grâce à la raison","Cela dépend du sujet"], correct:1, expl:"'Le moi n'est pas maître dans sa propre maison.' L'inconscient contient des désirs refoulés qui agissent à l'insu du sujet."},
+  {notion:"Le Devoir", q:"Qu'est-ce que l'impératif catégorique de Kant ?", opts:["Une règle morale conditionnelle","Une loi naturelle","Une règle morale universelle et inconditionnelle","Un désir transformé en loi"], correct:2, expl:"L'impératif catégorique : 'Agis selon la maxime que tu pourrais vouloir ériger en loi universelle.' Il ne dépend d'aucune conséquence."},
+  {notion:"Le Devoir", q:"Pour Bentham, qu'est-ce qui détermine notre devoir ?", opts:["La raison pure","Le calcul du plus grand bonheur du plus grand nombre","La pitié naturelle","L'impératif catégorique"], correct:1, expl:"L'utilitarisme de Bentham : le devoir consiste à maximiser le bonheur du plus grand nombre. C'est le calcul des conséquences qui prime."},
+  {notion:"L'Inconscient", q:"Pourquoi Popper considère-t-il la psychanalyse comme non scientifique ?", opts:["Elle n'a aucun effet","Ses hypothèses sont non falsifiables","Elle est trop récente","Elle contredit la biologie"], correct:1, expl:"Pour Popper, une théorie scientifique doit pouvoir être réfutée. La psychanalyse répond à toute réfutation en disant que le patient 'refoule' — elle est donc non falsifiable."},
+  {notion:"L'Inconscient", q:"Quel est l'inconscient cognitif selon Bergson ?", opts:["Les désirs refoulés","Les traumatismes oubliés","Les actes automatisés par l'habitude","Les rêves nocturnes"], correct:2, expl:"Pour Bergson, la conscience se retire des actes devenus automatiques par l'habitude. C'est l'inconscient cognitif — différent de l'inconscient freudien."},
+  {notion:"La Justice", q:"Que signifie le 'voile d'ignorance' de Rawls ?", opts:["Ignorer les lois de son pays","Imaginer une société sans savoir sa place","Refuser de regarder les injustices","Cacher les inégalités"], correct:1, expl:"Rawls demande d'imaginer les règles d'une société juste sans savoir quelle position on y occupera. C'est une méthode pour définir des principes neutres et équitables."},
+  {notion:"La Justice", q:"Pour Thoreau, quand doit-on désobéir à la loi ?", opts:["Jamais, la loi est toujours juste","Quand la loi viole la conscience morale","Quand c'est dans son intérêt","Dès qu'elle nous dérange"], correct:1, expl:"Thoreau invente la désobéissance civile : quand la loi est injuste, la désobéissance devient un devoir moral. On accepte alors la peine qui en résulte."},
+  {notion:"La Liberté", q:"Pourquoi Spinoza dit-il que le libre arbitre est une illusion ?", opts:["Dieu contrôle tout","Nous ignorons les causes qui nous déterminent","La société nous conditionne","La liberté est impossible pour un être mortel"], correct:1, expl:"Spinoza : 'Les hommes se croient libres parce qu'ils sont conscients de leurs actions et ignorants des causes par où ils sont déterminés.' Comme une pierre qui croirait voler librement."},
+  {notion:"La Liberté", q:"Qu'est-ce que la 'mauvaise foi' selon Sartre ?", opts:["Mentir aux autres","Nier sa propre liberté pour fuir la responsabilité","Agir contre ses valeurs","Douter de ses convictions"], correct:1, expl:"La mauvaise foi sartriennes consiste à faire comme si on était 'obligé' alors qu'on choisit toujours. C'est une fuite de la liberté et de la responsabilité."},
+  {notion:"La Nature", q:"Quelle est la thèse de Hans Jonas dans 'Le Principe de responsabilité' ?", opts:["La nature appartient à l'homme","Nos actes doivent être compatibles avec une vie future sur Terre","La technique résoudra tous les problèmes","La nature est indifférente à l'homme"], correct:1, expl:"Jonas formule un nouvel impératif : 'Agis de telle sorte que tes actions soient compatibles avec la permanence d'une vie humaine authentique sur la terre.'"},
+  {notion:"La Nature", q:"Pour Rousseau, l'homme à l'état de nature est-il bon ou mauvais ?", opts:["Mauvais par nature","Bon, mais corrompu par la société","Ni bon ni mauvais","Indéterminé"], correct:1, expl:"'L'homme naît bon, c'est la société qui le corrompt.' L'homme naturel de Rousseau est guidé par la pitié et l'amour de soi — deux passions naturellement positives."},
+  {notion:"La Raison", q:"Que signifie 'Sapere aude' (Kant) ?", opts:["Cherche la sagesse","Ose te servir de ton propre entendement","Doute de tout","Écoute les experts"], correct:1, expl:"'Sapere aude ! Aie le courage de te servir de ton propre entendement.' C'est la devise des Lumières selon Kant — penser par soi-même contre l'obscurantisme."},
+  {notion:"La Religion", q:"Pourquoi Marx appelle-t-il la religion 'l'opium du peuple' ?", opts:["Elle endort les souffrances réelles en promettant un bonheur posthume","Elle stimule la créativité","Elle crée des guerres","Elle est trop populaire"], correct:0, expl:"Pour Marx, la religion console les opprimés en leur promettant un paradis après la mort, les détournant de la révolte contre leurs conditions d'exploitation réelles."},
+  {notion:"La Science", q:"Qu'est-ce que la falsifiabilité selon Popper ?", opts:["La capacité à prouver une théorie","La capacité à réfuter une théorie par l'expérience","La vérification par consensus","La reproductibilité des expériences"], correct:1, expl:"Pour Popper, une théorie est scientifique si et seulement si elle peut être réfutée par l'expérience. Ce qui ne peut être réfuté n'est pas de la science mais de la métaphysique."},
+  {notion:"La Science", q:"Pour Kuhn, qu'est-ce qu'une révolution scientifique ?", opts:["Une découverte progressive","Un changement de paradigme","Une amélioration technique","Un désaccord entre scientifiques"], correct:1, expl:"Kuhn : quand les anomalies s'accumulent, le paradigme dominant cède la place à un nouveau. Ce n'est pas une amélioration graduelle mais une rupture totale (ex: géocentrisme → héliocentrisme)."},
+  {notion:"La Technique", q:"Qu'est-ce que l'aliénation du travail selon Marx ?", opts:["Le fait de travailler trop","L'état dans lequel l'ouvrier devient étranger à lui-même et son travail","Le manque de salaire","La jalousie entre ouvriers"], correct:1, expl:"L'aliénation marxiste : réduit à un geste mécanique répétitif, l'ouvrier perd le sens de son activité et se retrouve étranger à son propre travail et au produit qu'il crée."},
+  {notion:"La Technique", q:"Quel est le principe de Jonas face à la technique ?", opts:["Utiliser toutes les techniques possibles","Avoir peur de tout progrès","Agir de façon compatible avec la survie des générations futures","Interdire toute innovation"], correct:2, expl:"Jonas formule le principe de responsabilité : nos actes techniques doivent être compatibles avec la permanence d'une vie humaine authentique sur Terre — pour les générations futures."},
+  {notion:"Le Temps", q:"Que signifie le 'divertissement' chez Pascal ?", opts:["Se distraire par le jeu","Fuir la pensée de sa mortalité par l'agitation","Aller au théâtre","Trouver le bonheur dans les plaisirs"], correct:1, expl:"Le divertissement (divertere = détourner) : toute activité qui détourne l'homme de la conscience de sa mortalité. On fuit le face-à-face avec soi-même et avec la mort."},
+  {notion:"La Vérité", q:"Que signifie 'L'homme est la mesure de toute chose' (Protagoras) ?", opts:["L'homme est supérieur à tout","La vérité est relative à chaque individu","L'homme peut tout mesurer","La science est objective"], correct:1, expl:"Protagoras : la vérité dépend du sujet percevant. Si X perçoit le vent comme chaud et Y comme froid, ils ont tous les deux raison. Il n'y a pas de vérité absolue."},
+  {notion:"La Vérité", q:"Pour Kant, doit-on toujours dire la vérité ?", opts:["Non, si cela peut nuire","Oui, toujours — le mensonge ne peut jamais être universalisé","Cela dépend des conséquences","Non, si l'interlocuteur ne le mérite pas"], correct:1, expl:"Pour Kant, mentir ne peut pas être universalisé : si tout le monde mentait, le langage perdrait son sens. Même pour sauver une vie, le mensonge est immoral."},
+  {notion:"Le Langage", q:"Pour Bergson, le langage appauvrit-il la pensée ?", opts:["Non, il la clarifie","Oui, il enferme des ressentis singuliers dans des mots généraux","Non, il l'enrichit","Cela dépend de la langue"], correct:1, expl:"Bergson : 'Amour', 'colère', 'joie' sont des mots généraux qui ne capturent jamais la singularité de notre ressenti réel. 'Nous lisons des étiquettes collées sur les choses.'"},
+  {notion:"Le Travail", q:"Quelle est la différence entre 'travail' et 'oeuvre' selon Arendt ?", opts:["Il n'y en a pas","Le travail produit des biens durables, l'oeuvre des biens consommables","Le travail disparaît dans sa consommation, l'oeuvre laisse une trace durable","Le travail est individuel, l'oeuvre est collective"], correct:2, expl:"Arendt : l'animal laborans produit pour consommer (le repas). L'homo faber crée des objets durables qui persistent dans le monde et témoignent de son humanité."},
+  {notion:"L'État", q:"Pour Hobbes, pourquoi l'État est-il nécessaire ?", opts:["Pour imposer la religion","Pour empêcher la guerre de tous contre tous","Pour protéger la propriété","Pour éduquer les citoyens"], correct:1, expl:"À l'état de nature (sans État), Hobbes voit une 'guerre de chacun contre chacun'. L'État, en monopolisant la violence légitime, garantit la paix et la sécurité."},
+  {notion:"L'État", q:"Qu'est-ce que le 'despotisme doux' selon Tocqueville ?", opts:["Une tyrannie violente","Un État qui s'étend à tous les domaines par le désintérêt civique","Un monarque bienveillant","Un régime colonial"], correct:1, expl:"Tocqueville : en démocratie, un État peut devenir despote non par la force mais par la multiplication des petites règles, profitant du désintérêt des citoyens pour la vie politique."},
+  {notion:"Le Bonheur", q:"Qu'est-ce que l'ataraxie chez Épicure ?", opts:["Le plaisir des sens","L'absence de trouble de l'âme","La quête de la richesse","Le bonheur social"], correct:1, expl:"L'ataraxie (tranquillité de l'âme) est, avec l'aponie (absence de douleur corporelle), la condition du bonheur épicurien. Le bonheur n'est pas dans les plaisirs intenses mais dans l'absence de souffrance."},
+  {notion:"Le Bonheur", q:"Selon Schopenhauer, pourquoi le bonheur est-il impossible ?", opts:["Les hommes sont trop paresseux","Le désir implique manque (souffrance) et satisfaction amène l'ennui","La mort est inévitable","Les hommes ne savent pas ce qu'ils veulent"], correct:1, expl:"Schopenhauer : 'La vie oscille comme un pendule entre la souffrance et l'ennui.' Le désir = manque = souffrance. Satisfaction = ennui. On ne peut échapper à cette oscillation."},
+];
+
+// ════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════
+let done = JSON.parse(localStorage.getItem('philo_done') || '[]');
+let fcCards = generateFlashcards();
+let fcIndex = 0;
+let fcFlipped = false;
+let fcGood = 0, fcBad = 0;
+let fcFilter = 'all';
+let fcFiltered = [];
+let quizIndex = 0;
+let quizCorrect = 0, quizWrong = 0;
+let quizAnswered = false;
+let quizData = [...QUIZ_DATA];
+let quizFilter = 'all';
+
+function saveDone() { localStorage.setItem('philo_done', JSON.stringify(done)); updateProgress(); }
+function markDone(id) { if (!done.includes(id)) { done.push(id); saveDone(); } }
+function updateProgress() {
+  const pct = Math.round((done.length / NOTIONS.length) * 100);
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('nav-progress-fill').style.width = pct + '%';
+}
+
+// ════════════════════════════════════════════════════════
+// PAGES
+// ════════════════════════════════════════════════════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+function setTab(el) { document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+function setTabByName(name) {
+  document.querySelectorAll('.nav-tab').forEach(t => {
+    if (t.textContent.toLowerCase().includes(name.substring(0,4))) { t.classList.add('active'); } else { t.classList.remove('active'); }
+  });
+}
+function setMobileTab(el) { document.querySelectorAll('.mobile-nav-btn').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+
+// ════════════════════════════════════════════════════════
+// RENDER GRIDS
+// ════════════════════════════════════════════════════════
+function renderGrid(containerId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = NOTIONS.map(n => `
+    <div class="notion-card ${done.includes(n.id) ? 'done' : ''}" onclick="showNotion(${n.id})">
+      <div class="card-accent acc-${n.id}"></div>
+      <div class="notion-card-num">${n.num} — ${n.emoji}</div>
+      <div class="notion-card-title">${n.title}</div>
+      <div class="notion-card-preview">${n.desc.slice(0,80)}...</div>
+      <div class="notion-card-bar"><div class="notion-card-bar-fill" style="width:${done.includes(n.id)?100:0}%"></div></div>
+      <span class="notion-card-tag">${n.tag}</span>
+    </div>
+  `).join('');
+}
+
+function renderHomeCitations() {
+  const featured = [
+    {text:"Je pense, donc je suis.", source:"Descartes", notion:"La Conscience"},
+    {text:"L'homme est condamné à être libre.", source:"Sartre", notion:"La Liberté"},
+    {text:"Le cœur a ses raisons que la raison ne connaît pas.", source:"Pascal", notion:"La Raison"},
+    {text:"La vie oscille, comme un pendule, de la souffrance à l'ennui.", source:"Schopenhauer", notion:"Le Bonheur"},
+    {text:"Rien ne va de soi. Rien n'est donné. Tout est construit.", source:"Bachelard", notion:"La Science"},
+    {text:"La seule obligation que j'ai le droit d'adopter, c'est d'agir à tout moment selon ce qui me paraît juste.", source:"Thoreau", notion:"La Justice"},
+    {text:"La promesse de la technique moderne s'est inversée en menace.", source:"Hans Jonas", notion:"La Technique"},
+    {text:"L'homme naît bon, c'est la société qui le corrompt.", source:"Rousseau", notion:"La Nature"},
+    {text:"Sapere aude ! Aie le courage de te servir de ton propre entendement.", source:"Kant", notion:"La Raison"},
+    {text:"Le bonheur est un idéal, non de la raison, mais de l'imagination.", source:"Kant", notion:"Le Bonheur"},
+  ];
+  document.getElementById('home-citations').innerHTML = featured.map(c => `
+    <div class="citation-item">
+      <div class="citation-text">"${c.text}"</div>
+      <div class="citation-source">— ${c.source}</div>
+      <div class="citation-notion">${c.notion}</div>
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════════════════════════════
+// NOTION DETAIL
+// ════════════════════════════════════════════════════════
+function showNotion(id) {
+  const n = NOTIONS[id];
+  markDone(id);
+  showPage('detail');
+  document.getElementById('detail-content').innerHTML = `
+    <button class="notion-back" onclick="showPage('notions')">← Retour aux notions</button>
+
+    <div class="notion-header" data-num="${n.num}">
+      <div class="notion-tag">${n.emoji} ${n.tag}</div>
+      <h1>${n.title}</h1>
+      <p class="notion-header-desc">${n.desc}</p>
+    </div>
+
+    <div class="detail-tabs">
+      <button class="detail-tab active" onclick="switchTab(this,'tab-defs')">📖 Définitions</button>
+      <button class="detail-tab" onclick="switchTab(this,'tab-phils')">🧑‍🏫 Philosophes</button>
+      <button class="detail-tab" onclick="switchTab(this,'tab-debates')">⚔️ Débats</button>
+      <button class="detail-tab" onclick="switchTab(this,'tab-examples')">💡 Exemples</button>
+      <button class="detail-tab" onclick="switchTab(this,'tab-subjects')">📝 Sujets</button>
+    </div>
+
+    <div id="tab-defs" class="detail-content active fade-in">
+      <div class="def-grid">
+        ${n.defs.map(d => `
+          <div class="def-card">
+            <div class="def-term">${d.term}</div>
+            <div class="def-meaning">${d.def}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div id="tab-phils" class="detail-content fade-in">
+      <div class="phil-list">
+        ${n.philosophers.map(p => `
+          <div class="phil-card">
+            <div class="phil-header">
+              <div class="phil-avatar">${p.name[0]}</div>
+              <div>
+                <div class="phil-name">${p.name}</div>
+                <div class="phil-period">${p.period} · ${p.work}</div>
+              </div>
+              <span class="phil-badge ${p.badge}">${p.badge === 'oui' ? '✓ OUI' : '✗ NON'}</span>
+            </div>
+            <div class="phil-body">
+              <div>
+                <div class="phil-section-label">Thèse</div>
+                <div class="phil-thesis">${p.thesis}</div>
+              </div>
+              <div class="phil-quote">${p.quote}</div>
+              <div>
+                <div class="phil-section-label">Exemple</div>
+                <div class="phil-example">${p.example}</div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div id="tab-debates" class="detail-content fade-in">
+      ${n.debates.map(d => `
+        <div class="debate-card">
+          <div class="debate-question">${d.q}</div>
+          <div class="debate-sides">
+            <div class="debate-side oui">
+              <div class="debate-side-label">✓ OUI</div>
+              <div class="debate-arg">${d.oui}</div>
+            </div>
+            <div class="debate-side non">
+              <div class="debate-side-label">✗ NON</div>
+              <div class="debate-arg">${d.non}</div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div id="tab-examples" class="detail-content fade-in">
+      ${n.examples.map(e => `
+        <div class="example-card">
+          <div class="example-header">
+            <div class="example-icon">${e.icon}</div>
+            <div>
+              <div class="example-title">${e.title}</div>
+              <div class="example-cat">${e.cat}</div>
+            </div>
+          </div>
+          <div class="example-body">${e.text}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div id="tab-subjects" class="detail-content fade-in">
+      <div class="subjects-list">
+        ${n.subjects.map(s => `
+          <div class="subject-item">
+            <div class="subject-text">${s}</div>
+            <span class="subject-type">Dissertation</span>
+          </div>
+        `).join('')}
+      </div>
+      <div style="margin-top:24px; padding:20px; background:var(--gold-light); border-radius:var(--radius-sm); border-left:4px solid var(--gold);">
+        <strong>💡 Astuce :</strong> Pour chaque sujet, identifie la tension philosophique cachée, trouve 2 philosophes pour le OUI et 2 pour le NON, et construis ta synthèse en montrant que les deux positions se complètent.
+      </div>
+    </div>
+  `;
+  updateProgress();
+  renderGrid('home-notion-grid');
+  renderGrid('notions-grid');
+}
+
+function switchTab(el, tabId) {
+  el.closest('.notion-detail').querySelectorAll('.detail-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  el.closest('.notion-detail').querySelectorAll('.detail-content').forEach(c => c.classList.remove('active'));
+  el.closest('.notion-detail').querySelector('#'+tabId).classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════
+// FLASHCARDS
+// ════════════════════════════════════════════════════════
+function initFlashcards() {
+  // Filter buttons
+  const filterEl = document.getElementById('fc-filter');
+  filterEl.innerHTML = `<button class="fc-filter-btn active" onclick="setFcFilter('all',this)">Tout</button>` +
+    NOTIONS.map(n => `<button class="fc-filter-btn" onclick="setFcFilter(${n.id},this)">${n.emoji} ${n.title}</button>`).join('');
+  setFcFilter('all', filterEl.querySelector('.fc-filter-btn'));
+}
+
+function setFcFilter(filter, el) {
+  document.querySelectorAll('.fc-filter-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  fcFilter = filter;
+  fcFiltered = filter === 'all' ? [...fcCards] : fcCards.filter(c => c.id === filter);
+  // Shuffle
+  for (let i = fcFiltered.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [fcFiltered[i], fcFiltered[j]] = [fcFiltered[j], fcFiltered[i]];
+  }
+  fcIndex = 0; fcGood = 0; fcBad = 0; fcFlipped = false;
+  renderFc();
+}
+
+function renderFc() {
+  const counter = document.getElementById('fc-counter');
+  const progress = document.getElementById('fc-progress-fill');
+  const area = document.getElementById('fc-card-area');
+  if (fcIndex >= fcFiltered.length) {
+    counter.textContent = '';
+    progress.style.width = '100%';
+    area.innerHTML = `
+      <div class="fc-done">
+        <div class="fc-done-icon">🎉</div>
+        <div class="fc-done-title">Terminé !</div>
+        <div class="fc-score">${Math.round(fcGood/(fcGood+fcBad)*100)||0}%</div>
+        <div class="fc-score-label">de bonnes réponses · ${fcGood} / ${fcGood+fcBad}</div>
+        <button class="btn-primary" style="margin-top:16px;" onclick="setFcFilter(fcFilter, document.querySelector('.fc-filter-btn.active'))">Recommencer</button>
+      </div>`;
+    return;
+  }
+  const c = fcFiltered[fcIndex];
+  counter.textContent = `Carte ${fcIndex + 1} / ${fcFiltered.length}`;
+  progress.style.width = ((fcIndex / fcFiltered.length) * 100) + '%';
+  area.innerHTML = `
+    <div class="flashcard ${fcFlipped ? 'flipped' : ''}" id="fc-card" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="flashcard-notion">${c.notion}</div>
+          <div class="flashcard-question">${c.q}</div>
+          <div class="flashcard-hint">Clique pour révéler</div>
+        </div>
+        <div class="flashcard-back">
+          <div class="flashcard-notion">${c.notion}</div>
+          <div class="flashcard-answer">${c.a.replace(/\n/g,'<br>')}</div>
+          ${c.author ? `<div class="flashcard-author">— ${c.author}</div>` : ''}
+        </div>
+      </div>
+    </div>
+    <div class="flashcard-actions">
+      ${fcFlipped ? `
+        <button class="fc-btn bad" onclick="fcRate(false)">✗ À retravailler</button>
+        <button class="fc-btn good" onclick="fcRate(true)">✓ Je savais !</button>
+      ` : `
+        <button class="fc-btn flip" onclick="flipCard()">Voir la réponse</button>
+      `}
+    </div>
+  `;
+}
+
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  const card = document.getElementById('fc-card');
+  if (card) card.classList.toggle('flipped', fcFlipped);
+  renderFc();
+}
+function fcRate(good) {
+  if (good) fcGood++; else fcBad++;
+  fcIndex++;
+  fcFlipped = false;
+  renderFc();
+}
+
+// ════════════════════════════════════════════════════════
+// QUIZ
+// ════════════════════════════════════════════════════════
+function initQuiz() {
+  // Populate filter
+  const sel = document.getElementById('quiz-notion-filter');
+  if (sel.options.length === 1) {
+    NOTIONS.forEach(n => { const o = document.createElement('option'); o.value = n.title; o.textContent = n.emoji + ' ' + n.title; sel.appendChild(o); });
+  }
+  quizFilter = sel.value;
+  quizData = quizFilter === 'all' ? [...QUIZ_DATA] : QUIZ_DATA.filter(q => q.notion === quizFilter);
+  for (let i = quizData.length - 1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [quizData[i],quizData[j]]=[quizData[j],quizData[i]]; }
+  quizIndex = 0; quizCorrect = 0; quizWrong = 0; quizAnswered = false;
+  updateQuizStats();
+  renderQuiz();
+}
+
+function updateQuizStats() {
+  document.getElementById('quiz-correct').textContent = quizCorrect;
+  document.getElementById('quiz-wrong').textContent = quizWrong;
+  document.getElementById('quiz-total').textContent = quizIndex;
+}
+
+function renderQuiz() {
+  const area = document.getElementById('quiz-area');
+  if (quizIndex >= quizData.length) {
+    const pct = Math.round(quizCorrect/quizData.length*100);
+    area.innerHTML = `
+      <div class="fc-done">
+        <div class="fc-done-icon">${pct>=80?'🏆':pct>=60?'👍':'📚'}</div>
+        <div class="fc-done-title">${pct>=80?'Excellent !':pct>=60?'Bien joué !':'Continue à réviser'}</div>
+        <div class="fc-score">${pct}%</div>
+        <div class="fc-score-label">${quizCorrect} bonnes réponses sur ${quizData.length}</div>
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:20px;">
+          <button class="btn-primary" onclick="initQuiz()">Recommencer</button>
+          <button class="btn-secondary" style="background:var(--ink); color:#fff;" onclick="showPage('notions'); setTabByName('notions')">Réviser les notions</button>
+        </div>
+      </div>`;
+    return;
+  }
+  const q = quizData[quizIndex];
+  quizAnswered = false;
+  area.innerHTML = `
+    <div class="fade-in">
+      <div class="quiz-q-num">Question ${quizIndex+1} / ${quizData.length} · ${q.notion}</div>
+      <div class="quiz-question">${q.q}</div>
+      <div class="quiz-options" id="quiz-opts">
+        ${q.opts.map((o,i) => `<button class="quiz-option" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="quiz-fb"></div>
+      <button class="quiz-next" id="quiz-next-btn" onclick="nextQuiz()">Question suivante →</button>
+    </div>
+  `;
+}
+
+function answerQuiz(chosen) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizData[quizIndex];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.classList.add('disabled'));
+  const fb = document.getElementById('quiz-fb');
+  const nextBtn = document.getElementById('quiz-next-btn');
+  if (chosen === q.correct) {
+    quizCorrect++;
+    opts[chosen].classList.add('selected-correct');
+    fb.className = 'quiz-feedback show correct';
+    fb.innerHTML = '✓ Bonne réponse ! ' + q.expl;
+  } else {
+    quizWrong++;
+    opts[chosen].classList.add('selected-wrong');
+    opts[q.correct].classList.add('correct-reveal');
+    fb.className = 'quiz-feedback show wrong';
+    fb.innerHTML = '✗ Mauvaise réponse. ' + q.expl;
+  }
+  nextBtn.classList.add('show');
+  updateQuizStats();
+}
+function nextQuiz() { quizIndex++; renderQuiz(); }
+
+// ════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════
+renderGrid('home-notion-grid');
+renderGrid('notions-grid');
+renderHomeCitations();
+updateProgress();
+</script>
+</body>
+</html>
